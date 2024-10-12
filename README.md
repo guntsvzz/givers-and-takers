@@ -1,61 +1,91 @@
-# Givers and Takers : platform
+# Givers & Takers Platform (in-progress)
 
-by Todsavad
+Welcome to the Givers & Takers platform, a community-driven space dedicated to transparent giving and tangible impact. Our platform connects donors and recipients for practical assistance, ensuring that every contribution makes a real difference.
 
-## Pre-requisites
+![Givers & Takers Banner](./figures/homepage.png)
 
-- Docker
+*Image inspiration from: [UNICEF](https://www.unicef.org), [Mirror Foundation](https://www.mirror.or.th), and [GoFundMe](https://www.gofundme.com).*
 
+## Prerequisites
 
-## Database
+To run the platform locally, you will need Docker installed on your machine.
 
-To start the database server, go to the directory db,
+## Database Setup
 
-`cd db`
+The platform uses PostgreSQL as the database. Follow the steps below to start the database server.
 
-Run the docker-compose file using command:
+1. Navigate to the `db` directory:
 
-`docker compose up -d`
+   ```bash
+   cd db
+   ```
 
-The database server will run on http://localhost:5432
+2. Use Docker Compose to start the database:
 
+   ```bash
+   docker compose up -d
+   ```
 
-## Running Rails app
+   The database server will be accessible at `http://localhost:5432`.
 
-Go the rails app directory
+## Running the Rails App
 
-`cd students`
+1. Navigate to the `students` directory where the Rails application is located:
 
-For first time usage, build the app image using command
+   ```bash
+   cd students
+   ```
 
-`docker compose build`
+2. For the first-time setup, build the app image:
 
-Run the app using command
+   ```bash
+   docker compose build
+   ```
 
-`docker compose up -d`
+3. Run the app:
 
-The app will run on http://localhost:3000
+   ```bash
+   docker compose up -d
+   ```
 
-### Accessing the container
+   The app will run on `http://localhost:3000`.
 
-To use rails command to generate new models and views, or migrating the command first access into container
+### Accessing the App Container
 
-`docker exec -it students-app bash`
+To execute Rails commands (e.g., generating new models, running migrations), you’ll need to access the app container.
 
-To generate new models and views run the command
+1. Open a terminal in the container:
 
-`./bin/rails generate scaffold course name:string credits:integer`
+   ```bash
+   docker exec -it students-app bash
+   ```
 
-To run a migration and create tables or update database tables
+2. To generate a new scaffold (e.g., a course with `name` and `credits`):
 
-`bundle exec rake db:migrate`
+   ```bash
+   ./bin/rails generate scaffold course name:string credits:integer
+   ```
 
-To exit the container, simply run the command
+3. To run migrations and update the database schema:
 
-`exit`
+   ```bash
+   bundle exec rake db:migrate
+   ```
 
-## Stopping the containers
-To stop all the containers, run the command on the folder where docker-compose files are located
+4. Exit the container when you're done:
 
-`docker compose down --remove-orphans`
+   ```bash
+   exit
+   ```
 
+## Stopping the Containers
+
+To stop all running containers, go to the directory where the Docker Compose files are located and run:
+
+```bash
+docker compose down --remove-orphans
+```
+
+---
+
+The platform encourages transparent giving and supports users who want to "Start Giving" with ease.
