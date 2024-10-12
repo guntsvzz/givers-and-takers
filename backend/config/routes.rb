@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  resources :interests
   get "home/index"
+  
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  resources :requests, only: [:show]
-  resources :students
+  resources :interests
+  resources :requests #, only: [:show]
+  # resources :students 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -18,5 +19,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root 'home#index'  # Replace 'home#index' with your desired controller and action
+  get 'about_us', to: 'pages#index', as: 'about_us'
+  get 'givers', to: 'users#givers', as: 'givers'
+  get 'takers', to: 'users#takers', as: 'takers'
+  get 'your_account', to: 'users#your_account', as: 'your_account'
   
+  # Use different route names to avoid conflicts
+  get 'interests_list', to: 'interests#index', as: 'interests_list'
+  get 'requests_list', to: 'requests#index', as: 'requests_list'
 end

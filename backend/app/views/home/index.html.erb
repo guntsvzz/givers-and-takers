@@ -1,5 +1,29 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="navbar">
+    <%= button_to 'Search', '#', class: 'click-button' %>
+    
+    <%= button_to 'Giver', givers_path, method: :get, class: 'click-button' %>
 
-<h1>Welcome to the Application</h1>
-<p>This is the home page.</p>
+    <%= button_to 'Taker', takers_path, method: :get, class: 'click-button' %>
+
+    <%= button_to 'About Us', about_us_path, method: :get, class: 'click-button' %>
+    <% if user_signed_in? %>
+        <%= button_to 'Log Out', destroy_user_session_path, method: :delete, class: 'click-button' %>
+        <%= button_to 'Your Account', your_account_path, method: :get, class: 'click-button' %>
+        <%= button_to 'Interests', interests_list_path, method: :get, class: 'click-button' %> <!-- Interests button -->
+        <%= button_to 'Request', requests_list_path, method: :get, class: 'click-button' %> <!-- Request button -->
+    <% else %>
+        <%= button_to 'Sign In', new_user_session_path, class: 'click-button' %>
+    <% end %>
+    <%= button_to 'Start Giving', '#', class: 'click-button' %>
+</div>
+
+
+<div class="container">
+    <h1>Welcome to the Givers & Takers Platform</h1>
+    <h2>Transparent Giving, Tangible Impact.</h2>
+    <h3>Connecting donors and recipients for practical assistance.</h3>
+</div>
+
+<div class="click-button-container">
+<%= button_to 'Start Giving!', '#', class: 'click-button' %>
+</div>
