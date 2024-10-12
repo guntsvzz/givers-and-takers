@@ -1,6 +1,6 @@
-# Ruby on Rails BoilerPlate Using Docker
+# Givers and Takers : platform
 
-by Sunil Prajapati
+by Todsavad
 
 ## Pre-requisites
 
