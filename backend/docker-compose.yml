@@ -1,0 +1,18 @@
+services:
+  gnt_web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: gnt_web
+    image: gnt_web:0.1
+    command: bash -c "bundle exec rake db:create && bundle exec rake db:migrate && ./bin/rails server -b 0.0.0.0 -p 3000"
+    ports:
+      - "3000:3000"
+    networks:
+      - gnt_network
+    volumes:
+      - ./:/rails
+
+networks:
+  gnt_network:
+    external: true

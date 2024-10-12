@@ -1,0 +1,21 @@
+services:
+  gnt_frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gnt_frontend
+    ports:
+      - "4200:4200" # Map container's port 4200 to host's port 4200
+    volumes:
+      - ./:/app # Sync local project with the container for live changes
+    stdin_open: true
+    tty: true
+    environment:
+      - NG_CLI_ANALYTICS=ci  # Disable Angular CLI analytics
+    command: sh -c "ng config -g cli.analytics false && ng serve --host 0.0.0.0 --port 4200"
+    networks:
+      - gnt_network
+
+networks:
+  gnt_network:
+    external: true
