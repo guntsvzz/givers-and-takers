@@ -1,0 +1,56 @@
+<%= form_with(model: interest) do |form| %>
+  <% if interest.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(interest.errors.count, "error") %> prohibited this interest from being saved:</h2>
+
+      <ul>
+        <% interest.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :request_id, "Select Request", style: "display: block" %>
+    <%= form.collection_select :request_id, Request.all, :id, :item_name, { prompt: "Select a request" }, { class: 'form-control', id: 'request_select' } %>
+  </div>
+
+  <div>
+    <%= form.label :quantity, style: "display: block" %>
+    <%= form.number_field :quantity, min: 1, max: 0, id: 'quantity_field' %> <!-- Initially set max to 0 -->
+  </div>
+
+  <div>
+    <%= form.label :delivery_method, "Delivery Method", style: "display: block" %>
+    <%= form.select :delivery_method, Interest.delivery_methods.keys.map { |key| [key.humanize, key] }, { prompt: "Choose Delivery Method" } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const requestSelect = document.getElementById('request_select');
+    const quantityField = document.getElementById('quantity_field');
+
+    requestSelect.addEventListener('change', function() {
+      const requestId = this.value;
+
+      if (requestId) {
+        fetch(`/requests/${requestId}.json`)
+          .then(response => response.json())
+          .then(data => {
+            const maxQuantity = data.quantity; // Assuming the request object has a 'quantity' field
+            quantityField.max = maxQuantity;   // Set the max value for quantity field
+            quantityField.value = '';          // Reset the quantity field
+          });
+      } else {
+        quantityField.max = 0;
+        quantityField.value = '';
+      }
+    });
+  });
+</script>
