@@ -28,12 +28,12 @@ The platform uses PostgreSQL as the database. Follow the steps below to start th
 
    The database server will be accessible at `http://localhost:5432`.
 
-## Running the Rails App
+## Running the Backend - Rails App
 
 1. Navigate to the `students` directory where the Rails application is located:
 
    ```bash
-   cd students
+   cd backend
    ```
 
 2. For the first-time setup, build the app image:
@@ -50,6 +50,41 @@ The platform uses PostgreSQL as the database. Follow the steps below to start th
 
    The app will run on `http://localhost:3000`.
 
+## Running the Frontend - React App
+
+1. Navigate to the `frontend` directory:
+
+   ```bash
+   cd frontend
+   ```
+
+2. For the first-time setup, npm install:
+   ```bash
+   npm install
+   ```
+
+3. Run the app:
+   ```bash
+   ng serve
+   ```
+
+## Running the API - Express App
+
+1. Navigate to the `api` directory:
+   ```bash
+   cd api
+   ```
+
+2. For the first-time setup, npm install:
+   ```bash
+   npm install
+   ```
+
+3. Run the app:
+   ```bash
+   npm run dev
+   ```
+
 ### Accessing the App Container
 
 To execute Rails commands (e.g., generating new models, running migrations), you’ll need to access the app container.
@@ -57,22 +92,10 @@ To execute Rails commands (e.g., generating new models, running migrations), you
 1. Open a terminal in the container:
 
    ```bash
-   docker exec -it students-app bash
+   docker exec -it gnt-web bash
    ```
 
-2. To generate a new scaffold (e.g., a course with `name` and `credits`):
-
-   ```bash
-   ./bin/rails generate scaffold course name:string credits:integer
-   ```
-
-3. To run migrations and update the database schema:
-
-   ```bash
-   bundle exec rake db:migrate
-   ```
-
-4. Exit the container when you're done:
+2. Exit the container when you're done:
 
    ```bash
    exit
