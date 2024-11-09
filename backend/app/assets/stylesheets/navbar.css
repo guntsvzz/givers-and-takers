@@ -1,0 +1,54 @@
+/* app/assets/stylesheets/navbar.css */
+
+/* General styles for the navigation */
+nav {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  /* Button styles */
+  .btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #3b73e6;
+    background-color: white;
+    font-weight: bold;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+  }
+  
+  .btn:hover {
+    opacity: 0.8;
+  }
+  
+  /* Active link styling */
+  .active-link {
+    color: white;
+    background-color: black; /* Optional: change background for active link */
+    transform: scale(1.1); /* Increase size by 20% */
+  }
+  

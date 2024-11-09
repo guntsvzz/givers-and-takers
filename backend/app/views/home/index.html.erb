@@ -1,29 +1,23 @@
-<div class="navbar">
-    <%= button_to 'Search', '#', class: 'click-button' %>
-    
-    <%= button_to 'Giver', givers_path, method: :get, class: 'click-button' %>
+<%= render 'navbar/navbar' %>
 
-    <%= button_to 'Taker', takers_path, method: :get, class: 'click-button' %>
+<main>
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="../assets/children.jpg" alt="Happy children">
+        <div class="hero-content">
+            <h1>Transparent Giving, Tangible Impact</h1>
+            <p>Connecting donors and recipients for practical assistance.</p>
+            <%= link_to 'Start Giving', '#', class: 'btn' %>
+        </div>
+    </section>
 
-    <%= button_to 'About Us', about_us_path, method: :get, class: 'click-button' %>
-    <% if user_signed_in? %>
-        <%= button_to 'Log Out', destroy_user_session_path, method: :delete, class: 'click-button' %>
-        <%= button_to 'Your Account', your_account_path, method: :get, class: 'click-button' %>
-        <%= button_to 'Interests', interests_list_path, method: :get, class: 'click-button' %> <!-- Interests button -->
-        <%= button_to 'Request', requests_list_path, method: :get, class: 'click-button' %> <!-- Request button -->
-    <% else %>
-        <%= button_to 'Sign In', new_user_session_path, class: 'click-button' %>
-    <% end %>
-    <%= button_to 'Start Giving', '#', class: 'click-button' %>
-</div>
+    <!-- About Section -->
+    <section class="about">
+        <h2>About Our Platform</h2>
+        <p>Giver and Taker is dedicated to fostering a community of transparent giving. Our platform allows donors to provide tangible items directly to those in need, ensuring that every contribution makes a real difference.</p>
+    </section>
+</main>
 
-
-<div class="container">
-    <h1>Welcome to the Givers & Takers Platform</h1>
-    <h2>Transparent Giving, Tangible Impact.</h2>
-    <h3>Connecting donors and recipients for practical assistance.</h3>
-</div>
-
-<div class="click-button-container">
-<%= button_to 'Start Giving!', '#', class: 'click-button' %>
-</div>
+<footer>
+    <!-- Add footer content here -->
+</footer>

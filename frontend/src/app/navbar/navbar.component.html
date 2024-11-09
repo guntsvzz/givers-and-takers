@@ -1,0 +1,56 @@
+<nav>
+    <div class="nav-container">
+      <!-- Left-side navigation links -->
+      <div class="nav-links">
+        <a 
+          routerLink="/search" 
+          class="btn basic" 
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }">
+          Search
+        </a>
+        <a 
+          routerLink="/giver" 
+          class="btn basic" 
+          routerLinkActive="active-link">
+          Giver
+        </a>
+        <a 
+          routerLink="/taker" 
+          class="btn basic" 
+          routerLinkActive="active-link">
+          Taker
+        </a>
+      </div>
+  
+      <!-- Logo centered in the middle -->
+      <div class="logo">
+        <a routerLink="/">
+          <img src="../assets/logo.png" alt="Givers & Takers Logo" />
+        </a>
+      </div>
+  
+      <!-- Right-side navigation links -->
+      <div class="nav-links">
+        <a 
+          routerLink="/about" 
+          class="btn basic" 
+          routerLinkActive="active-link">
+          About Us
+        </a>
+        <a 
+          routerLink="/auth/login" 
+          class="btn basic" 
+          routerLinkActive="active-link">
+          Sign in
+        </a>
+        <!-- <a 
+          routerLink="/auth/login" 
+          class="btn basic" 
+          routerLinkActive="active-link">
+          Start Giving
+        </a> -->
+      </div>
+    </div>
+  </nav>
+  

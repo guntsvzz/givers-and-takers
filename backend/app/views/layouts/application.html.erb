@@ -13,8 +13,12 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    # <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_link_tag 'navbar', media: 'all' %> <!-- Navbar styles -->
+    <%= stylesheet_link_tag 'home', media: 'all' %> <!-- Home page styles -->
     <%= javascript_importmap_tags %>
+    
   </head>
 
   <body>

@@ -19,7 +19,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root 'home#index'  # Replace 'home#index' with your desired controller and action
+  get 'navbar', to: 'application#navbar'
   get 'about_us', to: 'pages#index', as: 'about_us'
+
+  # Define the search route (customize the controller/action as needed)
+  get 'search', to: 'search#show', as: 'search'
+  # Define other routes for givers and takers if they aren't already defined
   get 'givers', to: 'users#givers', as: 'givers'
   get 'takers', to: 'users#takers', as: 'takers'
   get 'your_account', to: 'users#your_account', as: 'your_account'
@@ -27,4 +32,7 @@ Rails.application.routes.draw do
   # Use different route names to avoid conflicts
   get 'interests_list', to: 'interests#index', as: 'interests_list'
   get 'requests_list', to: 'requests#index', as: 'requests_list'
+
+  # This route will respond to any OPTIONS requests and prevent routing errors
+  match '*path', to: 'application#preflight', via: :options
 end

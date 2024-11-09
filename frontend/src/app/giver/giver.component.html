@@ -1,0 +1,18 @@
+<!-- give.component.html -->
+<div class="giver-content">
+    <div class="donation-leaderboard-wrapper">
+        <div class="donation-container">
+            <div class="leaderboard">
+                <h2>Top Givers</h2>
+                <ul class="donators-list">
+                    <li *ngFor="let donator of donators; let i = index">
+                        <span class="rank">{{ i + 1 }}</span>
+                        <img src="{{ donator.imageUrl }}" alt="{{ donator.name }}" class="donator-image">
+                        <span class="name">{{ donator.name }}</span>
+                        <span class="donates">{{ donator.donates }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

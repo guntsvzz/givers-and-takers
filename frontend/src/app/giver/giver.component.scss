@@ -1,0 +1,67 @@
+/* giver.component.scss */
+
+.donation-leaderboard-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #4A90E2;
+}
+
+.donation-container {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 600px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  color: #2C3E50;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.leaderboard {
+  .donators-list {
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; // Adjust the flex container to spread out the children
+
+      .rank {
+        width: 30px;
+        height: 30px;
+        background-color: black;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; // Makes the rank a circle
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .donator-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-left: 15px; // Space between rank and image
+      }
+
+      .name, .donates {
+        margin-left: 10px;
+        color: #333;
+        font-size: 16px;
+      }
+
+      .donates {
+        margin-left: auto;
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-weight: bold;
+      }
+    }
+  }
+}

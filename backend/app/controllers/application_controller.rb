@@ -3,6 +3,18 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # Disable CSRF protection for API requests
+  protect_from_forgery unless: -> { request.format.json? }
+  
+  # Preflight method to handle CORS preflight requests
+  def preflight
+    head :ok
+  end
+  
+  def navbar
+    render partial: 'shared/navbar'
+  end
+  
   protected
 
   def configure_permitted_parameters

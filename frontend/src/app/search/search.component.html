@@ -1,0 +1,36 @@
+<!-- Main Search Section -->
+<div class="main-search">
+    <h1>Find Takers and Non-profits</h1>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search" />
+    </div>
+  
+    <!-- Category Navigation -->
+    <div class="category-nav">
+      <button class="category-btn active">Trending</button>
+      <button class="category-btn">Near you</button>
+      <button class="category-btn">Nonprofit</button>
+    </div>
+  </div>
+  
+  <!-- Content Cards Section -->
+  <div class="content-cards">
+    <!-- Highlighted first card -->
+    <div *ngIf="requests.length" class="card highlight">
+      <img [src]="requests[0].imageUrl" [alt]="'Image for ' + requests[0].title" />
+      <h3>{{ requests[0].title }}</h3>
+      <div class="progress-bar"></div>
+      <p>{{ requests[0].organizer }} is an organizer</p>
+    </div>
+  
+    <!-- Regular cards for the rest -->
+    <div *ngFor="let request of requests.slice(1)" class="card">
+      <img [src]="request.imageUrl" [alt]="'Image for ' + request.title" />
+      <h3>{{ request.title }}</h3>
+      <div class="progress-bar"></div>
+      <p>{{ request.organizer }} is an organizer</p>
+    </div>
+  </div>
+  
