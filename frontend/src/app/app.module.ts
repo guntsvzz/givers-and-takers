@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http'; 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,8 +15,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { FormsModule } from '@angular/forms';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthModule } from './auth/auth.module';
-import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,10 +27,10 @@ import { HttpClientModule } from '@angular/common/http';  // Import HttpClientMo
     // SignupComponent
   ],
   imports: [
-    BrowserModule,
     FormsModule,
     AppRoutingModule,
     AuthModule,
+    BrowserModule,
     HttpClientModule
   ],
   providers: [

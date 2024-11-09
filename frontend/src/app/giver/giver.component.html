@@ -7,9 +7,9 @@
                 <ul class="donators-list">
                     <li *ngFor="let donator of donators; let i = index">
                         <span class="rank">{{ i + 1 }}</span>
-                        <img src="{{ donator.imageUrl }}" alt="{{ donator.name }}" class="donator-image">
-                        <span class="name">{{ donator.name }}</span>
-                        <span class="donates">{{ donator.donates }}</span>
+                        <img src="{{ donator.imageUrl }}" alt="{{ donator.first_name }}" class="donator-image">
+                        <span class="name">Name : {{ donator.first_name }} {{ donator.last_name }}</span>
+                        <span class="donates">{{ donator.donates !== null ? donator.donates : 0 }}</span>
                     </li>
                 </ul>
             </div>

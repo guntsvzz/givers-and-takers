@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { GiverService } from '../services/giver.service';
 
 interface Donator {
-  name: string;
+  first_name: string;
+  last_name : string;
   donates: number;
   imageUrl: string; // New property for the image URL
 }
@@ -14,22 +16,27 @@ interface Donator {
 export class GiverComponent implements OnInit {
   // Check this example TypeScript component data
   public donators: Donator[] = [
-    { name: 'Todsavad Tangtortan', donates: 10, imageUrl: 'assets/todsavad.jpg' },
-    { name: 'Chantiri Polprasert', donates: 5, imageUrl: 'assets/chantiri.jpg' },
-    { name: 'Sunil Prajapati', donates: 3, imageUrl: 'assets/sunil.jpg' },
-    { name: 'Tatiya Seehatrakul', donates: 2, imageUrl: 'assets/tatiya.jpg' },
-    { name: 'Todsavad Tangtortan', donates: 10, imageUrl: 'assets/todsavad.jpg' },
-    { name: 'Chantiri Polprasert', donates: 5, imageUrl: 'assets/chantiri.jpg' },
-    { name: 'Sunil Prajapati', donates: 3, imageUrl: 'assets/sunil.jpg' },
-    { name: 'Tatiya Seehatrakul', donates: 2, imageUrl: 'assets/tatiya.jpg' },
-    { name: 'Todsavad Tangtortan', donates: 10, imageUrl: 'assets/todsavad.jpg' },
-    { name: 'Chantiri Polprasert', donates: 5, imageUrl: 'assets/chantiri.jpg' },
-    { name: 'Sunil Prajapati', donates: 3, imageUrl: 'assets/sunil.jpg' },
-    { name: 'Tatiya Seehatrakul', donates: 2, imageUrl: 'assets/tatiya.jpg' }
+    { first_name: 'Todsavad', last_name :' Tangtortan', donates: 10, imageUrl: 'assets/todsavad.jpg' },
+    { first_name: 'Chantiri', last_name :' Polprasert', donates: 5, imageUrl: 'assets/chantiri.jpg' },
+    { first_name: 'Sunil', last_name :' Prajapati', donates: 3, imageUrl: 'assets/sunil.jpg' },
+    { first_name: 'Tatiya', last_name :' Seehatrakul', donates: 2, imageUrl: 'assets/tatiya.jpg' },
+    { first_name: 'Todsavad', last_name :' Tangtortan', donates: 10, imageUrl: 'assets/todsavad.jpg' },
+    { first_name: 'Chantiri', last_name :' Polprasert', donates: 5, imageUrl: 'assets/chantiri.jpg' },
+    { first_name: 'Sunil', last_name :' Prajapati', donates: 3, imageUrl: 'assets/sunil.jpg' },
+    { first_name: 'Tatiya', last_name :' Seehatrakul', donates: 2, imageUrl: 'assets/tatiya.jpg' },
+    { first_name: 'Todsavad', last_name :' Tangtortan', donates: 10, imageUrl: 'assets/todsavad.jpg' },
+    { first_name: 'Chantiri', last_name :' Polprasert', donates: 5, imageUrl: 'assets/chantiri.jpg' },
+    { first_name: 'Sunil', last_name :' Prajapati', donates: 3, imageUrl: 'assets/sunil.jpg' },
+    { first_name: 'Tatiya', last_name :' Seehatrakul', donates: 2, imageUrl: 'assets/tatiya.jpg' }
   ];
 
+  constructor(private giverService: GiverService) {}
+  // constructor() { }
 
-  constructor() { }
-
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // Initialization logic can be placed here
+    this.giverService.getTakers().subscribe((data) => {
+      this.donators = data;
+    });
+  }
 }

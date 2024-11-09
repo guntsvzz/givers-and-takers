@@ -1,4 +1,3 @@
-<!-- <p>taker works!</p> -->
 <div class="taker-content">
     <div class="donation-leaderboard-wrapper">
         <div class="donation-container">
@@ -6,12 +5,12 @@
             <ul class="recipients-list">
                 <li *ngFor="let recipient of recipients; let i = index">
                     <span class="rank">{{ i + 1 }}</span>
-                    <img src="{{ recipient.imageUrl }}" alt="{{ recipient.name }}" class="recipient-image">
-                    <span class="name">{{ recipient.name }}</span>
+                    <img src="{{ recipient.imageUrl }}" alt="{{ recipient }}" class="recipient-image">
+                    <span class="name">Name : {{ recipient.first_name }} {{recipient.last_name}}</span>
                     <img src="{{ getStatusImage(recipient.status) }}" alt="{{ recipient.status }}" class="status-image">
                 </li>
             </ul>
         </div>
     </div>
 </div>
-
+  
