@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'jwt'
+
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -12,6 +14,7 @@ class Users::SessionsController < Devise::SessionsController
   # def create
   #   super
   # end
+  
 
   # DELETE /resource/sign_out
   # def destroy
@@ -24,4 +27,23 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+  respond_to :json
+
+  # Prevent CSRF verification on JSON requests
+  skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
+
+  private
+
+  def respond_with(resource, _opts = {})
+    token = encode_token(user_id: resource.id)  # Generate the token
+    render json: { message: 'Logged in successfully.', user: resource, token: token }, status: :ok
+  end
+
+  def respond_to_on_destroy
+    head :no_content
+  end
+
+  def encode_token(payload)
+    JWT.encode(payload, Rails.application.credentials.secret_key_base)
+  end
 end

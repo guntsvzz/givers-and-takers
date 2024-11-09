@@ -1,4 +1,3 @@
-// signup.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -51,12 +50,30 @@ export class SignupComponent implements OnInit {
       const formData = this.signupForm.value;
   
       // Use type assertion to ensure TypeScript understands the type of organizationType
-      formData.organizationType = this.organizationTypeMapping[formData.organizationType as keyof typeof this.organizationTypeMapping];
+      formData.organization_type = this.organizationTypeMapping[formData.organization_type as keyof typeof this.organizationTypeMapping];
   
+      // Register the user
       this.authService.register(formData).subscribe(
         (response: any) => {
           console.log('Registration successful:', response);
-          this.router.navigate(['/auth/login']);
+
+          // After registration, directly log the user in
+          this.authService.login({
+            email: formData.email,
+            password: formData.password
+          }).subscribe(
+            (loginResponse: any) => {
+              console.log('Login successful:', loginResponse);
+              // Save the token and navigate to the dashboard or home page
+              localStorage.setItem('authToken', loginResponse.token);
+              this.authService.setLoggedIn(true);
+              this.router.navigate(['/']);
+            },
+            (loginError: any) => {
+              console.error('Login error:', loginError);
+              // Optionally handle login failure after signup
+            }
+          );
         },
         (error: any) => {
           console.error('Registration error:', error);

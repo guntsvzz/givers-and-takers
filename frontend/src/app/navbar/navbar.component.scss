@@ -42,10 +42,35 @@ nav {
     opacity: 0.8;
   }
 
-  /* Active link styling */
-  .active-link {
-    color: white;
-    background-color: black; /* Optional: change background for active link */
-    transform: scale(1.1); /* Increase size by 20% */
+  .account-menu {
+    position: relative;
+    cursor: pointer;
   }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+  }
+  
+  .dropdown-item {
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  
 }
+

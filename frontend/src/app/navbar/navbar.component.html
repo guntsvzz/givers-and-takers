@@ -1,56 +1,89 @@
 <nav>
-    <div class="nav-container">
-      <!-- Left-side navigation links -->
-      <div class="nav-links">
-        <a 
-          routerLink="/search" 
-          class="btn basic" 
-          routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: true }">
-          Search
-        </a>
-        <a 
-          routerLink="/giver" 
-          class="btn basic" 
-          routerLinkActive="active-link">
-          Giver
-        </a>
-        <a 
-          routerLink="/taker" 
-          class="btn basic" 
-          routerLinkActive="active-link">
-          Taker
-        </a>
-      </div>
-  
-      <!-- Logo centered in the middle -->
-      <div class="logo">
-        <a routerLink="/">
-          <img src="../assets/logo.png" alt="Givers & Takers Logo" />
-        </a>
-      </div>
-  
-      <!-- Right-side navigation links -->
-      <div class="nav-links">
-        <a 
-          routerLink="/about" 
-          class="btn basic" 
-          routerLinkActive="active-link">
-          About Us
-        </a>
-        <a 
-          routerLink="/auth/login" 
-          class="btn basic" 
-          routerLinkActive="active-link">
-          Sign in
-        </a>
-        <!-- <a 
-          routerLink="/auth/login" 
-          class="btn basic" 
-          routerLinkActive="active-link">
-          Start Giving
-        </a> -->
+  <div class="nav-container">
+    <!-- Left-side navigation links -->
+    <div class="nav-links">
+      <a 
+        routerLink="/search" 
+        class="btn basic" 
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Search
+      </a>
+      <a 
+        routerLink="/giver" 
+        class="btn basic" 
+        routerLinkActive="active-link">
+        Giver
+      </a>
+      <a 
+        routerLink="/taker" 
+        class="btn basic" 
+        routerLinkActive="active-link">
+        Taker
+      </a>
+    </div>
+
+    <!-- Logo centered in the middle -->
+    <div class="logo">
+      <a routerLink="/">
+        <img src="../assets/logo.png" alt="Givers & Takers Logo" />
+      </a>
+    </div>
+
+    <!-- Right-side navigation links -->
+    <!-- <div class="nav-links">
+      <a 
+        routerLink="/about" 
+        class="btn basic" 
+        routerLinkActive="active-link">
+        About Us
+      </a>
+      <a 
+        *ngIf="!isLoggedIn" 
+        routerLink="/auth/login" 
+        class="btn basic" 
+        routerLinkActive="active-link">
+        Sign in
+      </a>
+      <a 
+        *ngIf="isLoggedIn" 
+        routerLink="/your_account" 
+        class="btn basic" 
+        routerLinkActive="active-link">
+        Your Account
+      </a>
+    </div> -->
+    <div class="nav-links">
+      <a routerLink="/about" class="btn basic" routerLinkActive="active-link">About Us</a>
+    
+      <!-- Show "Sign in" if the user is not logged in -->
+      <a *ngIf="!isLoggedIn" routerLink="/auth/login" class="btn basic" routerLinkActive="active-link">Sign in</a>
+    
+      <!-- Show "Your Account" if the user is logged in -->
+      <div *ngIf="isLoggedIn" class="account-menu" (click)="toggleDropdown()">
+        <a class="btn basic" routerLinkActive="active-link">Your Account</a>
+    
+        <!-- Dropdown Menu -->
+        <div *ngIf="dropdownOpen" class="dropdown-menu">
+          <a routerLink="/your_donate" class="dropdown-item">Your Donate</a>
+          <a routerLink="/your_fundraiser" class="dropdown-item">Your Fundraiser</a>
+          <a routerLink="/settings" class="dropdown-item">Settings</a>
+          <a (click)="onSignOut()" class="dropdown-item">Sign Out</a>
+        </div>
       </div>
     </div>
-  </nav>
-  
+    
+    
+    <!-- Account dropdown -->
+    <!-- <div class="account-dropdown" (click)="toggleDropdown()" [class.open]="dropdownOpen">
+      <span>Your Account</span>
+      <div class="dropdown-menu" *ngIf="dropdownOpen">
+        <a routerLink="/your-donate">Your donate</a>
+        <a routerLink="/your-fundraiser">Your fundraiser</a>
+        <a routerLink="/settings">Settings</a>
+        <a (click)="onSignOut()">Sign out</a>
+      </div>
+    </div> -->
+
+  </div>
+</nav>

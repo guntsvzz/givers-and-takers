@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
   # Disable CSRF protection for API requests
   protect_from_forgery unless: -> { request.format.json? }
-  
   # Preflight method to handle CORS preflight requests
   def preflight
     head :ok

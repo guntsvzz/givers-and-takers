@@ -3,23 +3,77 @@
     <div class="logo">
       <img src="../../assets/logo.png" alt="Givers & Takers Logo" width="100">
     </div>
-
-    <div>
+    <!-- Sign In Form -->
+    <div id="signin-form" *ngIf="!showForgotPassword && !showRoleSelection && !showSignUpForm">
       <h1>Sign in</h1>
-    </div>
-    <div>
-      <form>
-        <input type="email" placeholder="Email Address" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit">Sign In</button>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" placeholder="Email Address" required />
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Please enter a valid email address.
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" placeholder="Password" required />
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required.
+          </div>
+        </div>
+        
+        <button type="submit" [disabled]="loginForm.invalid">Sign In</button>
       </form>
 
       <p class="text-center">
-        <a [routerLink]="['/forgot']">Forgot your password?</a>
+        <a (click)="toggleForgotPassword()">Forgot your password?</a>
       </p>
       <p class="text-center">
-        Don't have an account? <a [routerLink]="['/signup']">Sign up</a>
+        Don't have an account? <a (click)="toggleRoleSelection()">Sign up</a>
       </p>
     </div>
+
+    <!-- Forgot Password Form -->
+    <div *ngIf="showForgotPassword" class="forgot-password-form">
+      <h1>Reset your password</h1>
+      <p>We'll send you instructions to reset your password.</p>
+
+      <form [formGroup]="forgotPasswordForm" (ngSubmit)="onResetPassword()">
+          <input type="email" placeholder="Email Address" required>
+          <button type="submit" [disabled]="forgotPasswordForm.invalid">Reset password</button>
+      </form>
+
+      <p class="text-center">
+        <a (click)="toggleForgotPassword()">Return to sign in</a>
+      </p>
+
+      <p class="privacy-note">
+        This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+      </p>
+  </div>
+
+    <!-- Role Selection for Sign-Up -->
+    <div *ngIf="showRoleSelection">
+      <h1>Choose your role</h1>
+      <div class="role-options">
+        <div class="role-option" (click)="selectRole('giver')">
+          <img src="assets/giver-icon.png" alt="Be a Giver">
+          <h2>Be a Giver</h2>
+        </div>
+        <div class="role-option" (click)="selectRole('taker')">
+          <img src="assets/taker-icon.png" alt="Be a Taker">
+          <h2>Be a Taker</h2>
+        </div>
+      </div>
+      <button (click)="toggleRoleSelection()">Back to Login</button>
+    </div>
+
+    <!-- Sign-Up Form -->
+    <!-- <div *ngIf="showSignUpForm"> -->
+      <!-- <h1>Sign Up as {{ selectedRole }}</h1> -->
+      <!-- Include a similar sign-up form here as in signup.component.html -->
+      <!-- <button (click)="toggleRoleSelection()">Back to Role Selection</button> -->
+    <!-- </div> -->
   </div>
 </div>
