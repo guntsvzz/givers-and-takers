@@ -1,3 +1,4 @@
+// signup.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+  loginForm: FormGroup;
   signupForm!: FormGroup;
   showRoleSelection = true;
   selectedRole: 'donator' | 'recipient' | null = null;
@@ -17,11 +19,18 @@ export class SignupComponent implements OnInit {
   roleMapping = { admin: 0, giver: 1, taker: 2 };
   organizationTypeMapping = { non_profit: 0, educational: 1, other: 2, corporate: 3, government: 4 };
 
+  
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     public authService: AuthService
-  ) {}
+  ) {
+     // Initialize the login form
+     this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
@@ -51,36 +60,42 @@ export class SignupComponent implements OnInit {
   
       // Use type assertion to ensure TypeScript understands the type of organizationType
       formData.organization_type = this.organizationTypeMapping[formData.organization_type as keyof typeof this.organizationTypeMapping];
-  
+    
       // Register the user
       this.authService.register(formData).subscribe(
         (response: any) => {
           console.log('Registration successful:', response);
-
-          // After registration, directly log the user in
-          this.authService.login({
-            email: formData.email,
-            password: formData.password
-          }).subscribe(
-            (loginResponse: any) => {
-              console.log('Login successful:', loginResponse);
-              // Save the token and navigate to the dashboard or home page
-              localStorage.setItem('authToken', loginResponse.token);
-              this.authService.setLoggedIn(true);
-              this.router.navigate(['/']);
-            },
-            (loginError: any) => {
-              console.error('Login error:', loginError);
-              // Optionally handle login failure after signup
-            }
-          );
+          
+          if (response && response.token) {
+            // If the response contains a token, continue with login
+            this.loginForm.patchValue({
+              email: formData.email,
+              password: formData.password
+            });
+  
+            this.authService.login(this.loginForm.value).subscribe(
+              (loginResponse: any) => {
+                console.log('Login successful:', loginResponse);
+                localStorage.setItem('authToken', loginResponse.token);
+                this.authService.setLoggedIn(true);
+                this.router.navigate(['/']);
+              },
+              (loginError: any) => {
+                console.error('Login error:', loginError);
+              }
+            );
+          } else {
+            console.error('No token received in response.');
+          }
         },
         (error: any) => {
           console.error('Registration error:', error);
+          console.error('Response:', error.error); // Log the error details from the response
         }
       );
     } else {
       console.error('Form is invalid');
     }
   }
+  
 }

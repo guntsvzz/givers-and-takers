@@ -14,6 +14,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def create
   #   super
   # end
+  def create
+    super do |resource|
+      # After the user is successfully created, generate a token and include it in the response
+      token = encode_token(user_id: resource.id) if resource.persisted?
+      render json: { message: 'User created successfully.', user: resource, token: token }, status: :created and return if resource.persisted?
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -71,7 +78,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-  private
+  def encode_token(payload)
+    JWT.encode(payload, Rails.application.credentials.secret_key_base)
+  end
 
   def sign_up_params
     params.require(:user).permit(

@@ -35,18 +35,17 @@ export class LoginComponent {
 
   // Toggle between showing the forgot password form and the login form
   toggleForgotPassword() {
-    this.showForgotPassword = !this.showForgotPassword;
-    this.showRoleSelection = false;
-    this.showSignUpForm = false;
+    // this.showForgotPassword = !this.showForgotPassword;
+    // this.showRoleSelection = false;
+    // this.showSignUpForm = false;
+    this.router.navigate(['/forgot'])
   }
 
   // Toggle between showing role selection and login form
-  // toggleRoleSelection() {
-  //   this.showRoleSelection = !this.showRoleSelection;
-  //   this.showForgotPassword = false;
-  //   this.showSignUpForm = false;
-  // }
   toggleRoleSelection() {
+    //   this.showRoleSelection = !this.showRoleSelection;
+    //   this.showForgotPassword = false;
+    //   this.showSignUpForm = false;
     this.router.navigate(['/signup']);
   }
 
@@ -64,7 +63,6 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe(
         (response: any) => {
           console.log('Login successful:', response);
-          // Check if the response contains a token
           if (response.token) {
             localStorage.setItem('authToken', response.token);
             this.authService.setLoggedIn(true);
@@ -75,13 +73,15 @@ export class LoginComponent {
         },
         (error: any) => {
           console.error('Login error:', error);
-          // Show an error message to the user if needed
         }
       );
     } else {
+      // Mark all fields as touched to trigger validation messages
+      this.loginForm.markAllAsTouched();
       console.error('Login form is invalid');
     }
-  }  
+  }
+
   // Handle forgot password form submission
   onResetPassword() {
     if (this.forgotPasswordForm.valid) {
@@ -96,8 +96,10 @@ export class LoginComponent {
         }
       );
     } else {
+      // Mark all fields as touched to trigger validation messages
+      this.forgotPasswordForm.markAllAsTouched();
       console.error('Forgot Password form is invalid');
     }
-  }
+}
   
 }

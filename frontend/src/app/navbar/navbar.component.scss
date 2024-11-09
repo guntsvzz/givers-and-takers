@@ -21,8 +21,14 @@ nav {
     gap: 20px;
   }
 
-  .logo img {
-    height: 50px;
+  .logo {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+
+    img {
+      height: 50px;
+    }
   }
 
   /* Button styles */
@@ -36,15 +42,17 @@ nav {
     background-color: white;
     font-weight: bold;
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
-  }
 
-  .btn:hover {
-    opacity: 0.8;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   .account-menu {
     position: relative;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
   
   .dropdown-menu {
@@ -58,19 +66,20 @@ nav {
     padding: 10px;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     z-index: 1000;
+    min-width: 160px;
   }
   
   .dropdown-item {
     padding: 8px 12px;
     color: #333;
     text-decoration: none;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #f0f0f0;
-  }
-  
-  
-}
+    width: 100%;
+    text-align: left;
 
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
