@@ -24,6 +24,10 @@ export class TakerComponent implements OnInit {
   constructor(private takerService: TakerService) {}
   // constructor() { }
 
+  getRecipientImageUrl(imageUrl: string | null | undefined): string {
+    return imageUrl ? imageUrl : 'assets/organizer-avatar.png';
+  }
+  
   ngOnInit(): void {
     // Initialization logic can be placed here
     this.takerService.getTakers().subscribe((data) => {

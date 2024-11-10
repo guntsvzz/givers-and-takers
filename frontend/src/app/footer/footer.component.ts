@@ -7,11 +7,12 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
-  toggleLanguage() {
-    // Here you can implement logic to change language.
-    // For example, switching language in ngx-translate:
-    // this.translateService.use(newLanguageCode);
+  changeLanguage(event: Event) {
+    const selectedLanguage = (event.target as HTMLSelectElement).value;
+    // Implement your language change logic here
+    // For example, using ngx-translate:
+    // this.translateService.use(selectedLanguage);
 
-    alert('Language toggled!'); // Placeholder for actual language change functionality
+    console.log('Language changed to:', selectedLanguage); // Log the selected language
   }
 }

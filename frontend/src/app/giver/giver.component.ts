@@ -33,6 +33,10 @@ export class GiverComponent implements OnInit {
   constructor(private giverService: GiverService) {}
   // constructor() { }
 
+  getDonatorImageUrl(imageUrl: string | null | undefined): string {
+    return imageUrl ? imageUrl : 'assets/organizer-avatar.png';
+  }
+  
   ngOnInit(): void {
     // Initialization logic can be placed here
     this.giverService.getTakers().subscribe((data) => {

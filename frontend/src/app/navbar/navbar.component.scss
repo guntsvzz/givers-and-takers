@@ -5,7 +5,11 @@ nav {
   display: flex;
   justify-content: center;
   max-width: 100%;
-  position: relative;
+  position: fixed; /* Change to fixed to make navbar stay at the top */
+  top: 0; /* Fix to the top of the viewport */
+  width: 100%; /* Full width */
+  z-index: 1000; /* Ensure it stays above other content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
 
   .nav-container {
     display: flex;
@@ -82,4 +86,9 @@ nav {
       background-color: #f0f0f0;
     }
   }
+}
+
+/* Add padding to the main content to avoid being hidden under the navbar */
+.main-content {
+  padding-top: 80px; /* Adjust based on your navbar height */
 }
