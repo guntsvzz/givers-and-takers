@@ -15,6 +15,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { FormsModule } from '@angular/forms';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthModule } from './auth/auth.module';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     GiverComponent,
     TakerComponent,
     SearchComponent,
+    FooterComponent,
     // SignupComponent
   ],
   imports: [
