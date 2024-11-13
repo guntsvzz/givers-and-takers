@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { EditService } from '../../services/edit.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -8,17 +8,17 @@ import { Component } from '@angular/core';
 export class SettingsComponent {
   selectedTab = 'account';
 
-  user = {
-    first_name: 'Todsavad',
-    last_name: 'Tangtortan',
-    email: 'st124859@gmail.com',
-    password: '123456',
-    phone_number: '0812345678',
-    address: 'Pathum Thani',
-    organization_name: 'AIT',
-    organization_type: 'Non-profit',
-  };
-
+  // user = {
+  //   first_name: 'Todsavad',
+  //   last_name: 'Tangtortan',
+  //   email: 'st124859@gmail.com',
+  //   password: '123456',
+  //   phone_number: '0812345678',
+  //   address: 'Pathum Thani',
+  //   organization_name: 'AIT',
+  //   organization_type: 'Non-profit',
+  // };
+  user: any = {}; // Initialize user as an empty object
   fields = [
     { label: 'First Name', name: 'first_name', type: 'text', isEditing: false },
     { label: 'Last Name', name: 'last_name', type: 'text', isEditing: false },
@@ -30,23 +30,39 @@ export class SettingsComponent {
     { label: 'Organization Type', name: 'organization_type', type: 'text', isEditing: false }
   ];
 
+  constructor(private editService: EditService) {}
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
+
+  loadUserData() {
+    this.editService.getUserData().subscribe(
+      data => {
+        this.user = data.user;  // Access the nested user object
+        console.log('User data loaded:', this.user);
+      },
+      error => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+  }  
+
   selectTab(tab: string) {
     this.selectedTab = tab;
   }
 
   toggleEdit(field: any) {
     if (field.isEditing) {
-      // Save mode: disable editing and save changes
       field.isEditing = false;
       this.saveChanges();
     } else {
-      // Edit mode: enable editing
       field.isEditing = true;
     }
   }
 
   saveChanges() {
     console.log('User settings saved:', this.user);
-    // Add backend save logic here if needed
+    // Implement save functionality if needed
   }
 }

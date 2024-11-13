@@ -1,26 +1,25 @@
-<h1>List of Takers</h1>
+<div class="taker-content">
+  <div class="donation-leaderboard-wrapper">
+    <div class="donation-container">
+      <% if @takers.any? %>
+        <h2>Top Takers</h2>
+        <ul class="recipients-list">
+          <% @takers.each_with_index do |taker, i| %>
+            <li>
+              <span class="rank"><%= i + 1 %></span>
+              <img 
+                src="<%= taker.image_url.present? ? taker.image_url : asset_path('organizer-avatar.png') %>" 
+                alt="<%= "#{taker.first_name} #{taker.last_name}" %>" 
+                class="recipient-image">
+              <span class="name">Name: <%= "#{taker.first_name} #{taker.last_name}" %></span>
+              <img src="<%= get_status_image(taker.status) %>" alt="<%= taker.status %>" class="status-image">
 
-<% if @takers.any? %>  <!-- Check if there are any takers -->
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Organization Name</th>
-        <th>Organization Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @takers.each do |taker| %>
-        <tr>
-          <td><%= taker.first_name %></td>
-          <td><%= taker.last_name %></td>
-          <td><%= taker.organization_name %></td>
-          <td><%= User.organization_types.key(taker.read_attribute_before_type_cast(:role).to_i)&.humanize %></td>
-        </tr>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No takers found.</p>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>No takers found.</p>
-<% end %>
+    </div>
+  </div>
+</div>

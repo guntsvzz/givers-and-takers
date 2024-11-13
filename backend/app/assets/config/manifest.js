@@ -4,3 +4,9 @@
 //= link_tree ../../../vendor/javascript .js
 //= link navbar.css
 //= link home.css
+//= link login.css
+//= link signup.css
+//= link settings.css
+//= link about.css
+//= link home.css
+//= link search.css

@@ -1,64 +1,152 @@
-<h2>Sign up</h2>
+<div class="auth-container-wrapper">
+  <div class="auth-container signup-container">
+    <!-- Role Selection Section -->
+    <div id="role_selection_container" class="<%= @show_role_selection ? '' : 'hidden' %>">
+      <h1>Choose your role</h1>
+      <div class="role-options">
+        <div class="role-option" onclick="selectRole('giver')">
+          <%= image_tag("giver-icon.png", alt: "Be a Giver") %>
+          <h2>Be a Giver</h2>
+        </div>
+        <div class="role-option" onclick="selectRole('taker')">
+          <%= image_tag("taker-icon.png", alt: "Be a Taker") %>
+          <h2>Be a Taker</h2>
+        </div>
+      </div>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <!-- Signup Form Section -->
+    <div id="signup_form_container" class="<%= @show_role_selection ? 'hidden' : '' %>">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "signup-form", id: "signup_form" }) do |f| %>
+        <h2>Let's become a <%= params[:role] == 'giver' ? 'Giver' : 'Taker' %></h2>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name  %>
+        <div style="background: yellow; padding: 10px;">
+          Current role param: <%= params[:role].inspect %>
+        </div>
+
+        <%= f.hidden_field :role, id: "user_role" %>
+
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :first_name, "First Name" %>
+            <%= f.text_field :first_name, required: true, placeholder: "Required" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :last_name, "Last Name" %>
+            <%= f.text_field :last_name, required: true, placeholder: "Required" %>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :email, "Email" %>
+            <%= f.email_field :email, required: true, placeholder: "Required", autocomplete: "email" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password, "Password" %>
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %>
+            <%= f.password_field :password, required: true, placeholder: "Required", autocomplete: "new-password" %>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :phone_number, "Phone Number" %>
+            <%= f.telephone_field :phone_number, required: true, placeholder: "Required", autocomplete: "tel" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :address, "Address" %>
+            <%= f.text_field :address, required: true, placeholder: "Required" %>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :organization_name, "Organization Name" %>
+            <%= f.text_field :organization_name, required: true, placeholder: "Required" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :organization_type, "Organization Type" %>
+            <%= f.select :organization_type, User.organization_types.keys.map { |type| [type.humanize, type] }, prompt: "Select an organization type" %>
+          </div>
+        </div>
+
+        <%= f.submit "Confirm", class: "submit-btn", disabled: @signupForm_invalid %>
+      <% end %>
+    </div>
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name  %>
-  </div>
+<script>
+function selectRole(role) {
+  // Update the hidden field
+  const roleField = document.getElementById("user_role");
+  if (roleField) {
+    roleField.value = role;
+  }
+  
+  // Update the URL with the selected role
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('role', role);
+  window.history.replaceState({}, '', currentUrl);
+  
+  // Reload the page to update the server-side params
+  window.location.href = currentUrl.toString();
+  
+  // Note: The following code won't execute due to page reload
+  const roleContainer = document.getElementById("role_selection_container");
+  const formContainer = document.getElementById("signup_form_container");
+  
+  if (roleContainer && formContainer) {
+    roleContainer.style.display = 'none';
+    formContainer.style.display = 'block';
+  }
+}
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+document.addEventListener('DOMContentLoaded', function() {
+  // If we have a role in the URL, show the form and hide the role selection
+  const urlParams = new URLSearchParams(window.location.search);
+  const role = urlParams.get('role');
+  
+  if (role) {
+    const roleContainer = document.getElementById("role_selection_container");
+    const formContainer = document.getElementById("signup_form_container");
+    
+    if (roleContainer && formContainer) {
+      roleContainer.style.display = 'none';
+      formContainer.style.display = 'block';
+    }
+    
+    // Update the hidden field
+    const roleField = document.getElementById("user_role");
+    if (roleField) {
+      roleField.value = role;
+    }
+  }
+});
+</script>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address %>
-  </div>
-
-  <div class="field">
-    <%= f.label :role %><br />
-    <%= f.select :role, User.roles.keys.map { |role| [role.humanize, role] }, include_blank: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :organization_type %><br />
-    <%= f.select :organization_type, User.organization_types.keys.map { |org_type| [org_type.humanize, org_type] }, include_blank: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :organization_name %><br />
-    <%= f.text_field :organization_name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone_number %><br />
-    <%= f.telephone_field :phone_number, autocomplete: "tel", placeholder: "Enter 10-digit phone number" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
+<% content_for :head do %>
+  <style>
+    .hidden {
+      display: none;
+    }
+    
+    #role_selection_container:not(.hidden) {
+      display: block;
+    }
+    
+    #signup_form_container:not(.hidden) {
+      display: block;
+    }
+  </style>
 <% end %>
 
 <%= render "devise/shared/links" %>
+

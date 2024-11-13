@@ -1,25 +1,46 @@
-<h2>Log in</h2>
-
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+  <div class="auth-container-wrapper">
+    <div class="auth-container">
+      <div class="logo">
+        <%= image_tag 'logo.png', alt: 'Givers & Takers Logo', width: '100' %>
+      </div>
+      
+      <!-- Sign In Form -->
+      <div id="signin-form">
+        <h1>Sign in</h1>
+        <%= form_with(model: resource, as: resource_name, url: session_path(resource_name), local: true) do |f| %>
+          
+          <div class="form-group">
+            <%= f.label :email, 'Email' %>
+            <%= f.email_field :email, autofocus: true, placeholder: 'Please enter a valid email address.', required: true, class: "form-control" %>
+            <% if resource.errors[:email].any? %>
+              <div class="error-message">
+                Please enter a valid email address.
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :password, 'Password' %>
+            <%= f.password_field :password, placeholder: 'Password is required.', required: true, class: "form-control" %>
+            <% if resource.errors[:password].any? %>
+              <div class="error-message">
+                Password is required.
+              </div>
+            <% end %>
+          </div>
+          
+          <%= f.submit "Sign In", class: "btn btn-primary" %>
+        <% end %>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+        <p class="text-center">
+          <%= link_to 'Forgot your password?', new_password_path(resource_name) %>
+        </p>
+        <p class="text-center">
+          Don't have an account? <%= link_to 'Sign up', new_registration_path(resource_name) %>
+        </p>
+      </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
 <% end %>
 

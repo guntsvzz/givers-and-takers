@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Students" %></title>
+    <title><%= content_for(:title) || "Givers & Takers" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -9,19 +9,30 @@
 
     <%= yield :head %>
 
+
+    <!-- Favicon and Web App Icons -->
+    <link rel="icon" href="<%= asset_path 'logo-removebg.png' %>" type="image/png"> <!-- Primary favicon -->
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    # <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="apple-touch-icon" href="<%= asset_path 'logo-removebg.png' %>">
+
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= stylesheet_link_tag 'navbar', media: 'all' %> <!-- Navbar styles -->
     <%= stylesheet_link_tag 'home', media: 'all' %> <!-- Home page styles -->
+    <%= stylesheet_link_tag 'footer', media: 'all' %> <!-- Footer styles -->
+    <%= stylesheet_link_tag 'takers', media: 'all' %> <!-- Takers page styles -->
+    <%= stylesheet_link_tag 'givers', media: 'all' %> <!-- Givers page styles -->
+    <%= stylesheet_link_tag 'about', media: 'all' %> <!-- About page styles -->
+    <%= stylesheet_link_tag 'signup', media: 'all' %> <!-- Sign Up page styles -->
+    <%= stylesheet_link_tag 'settings', media: 'all' %> <!-- Settings page styles -->
     <%= javascript_importmap_tags %>
     
   </head>
 
   <body>
+    <%= render 'navbar/navbar' %>
+
     <%= yield %>
   </body>
 </html>

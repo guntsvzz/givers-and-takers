@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
+  # Define account routes
+  get 'account/giver', to: 'account#giver', as: 'account_giver'
+  get 'account/taker', to: 'account#taker', as: 'account_taker'
+  get 'account/settings', to: 'account#settings', as: 'account_settings'
+
   get "home/index"
   
   devise_for :users, controllers: { 
     registrations: 'users/registrations',
     sessions: 'users/sessions'
-   }
+  }
   resources :interests
   resources :requests #, only: [:show]
   # resources :students 
@@ -26,7 +31,7 @@ Rails.application.routes.draw do
   get 'about_us', to: 'pages#index', as: 'about_us'
 
   # Define the search route (customize the controller/action as needed)
-  get 'search', to: 'search#show', as: 'search'
+  get 'search', to: 'search#index', as: 'search'
   # Define other routes for givers and takers if they aren't already defined
   get 'givers', to: 'users#givers', as: 'givers'
   get 'takers', to: 'users#takers', as: 'takers'
@@ -35,7 +40,7 @@ Rails.application.routes.draw do
   # Use different route names to avoid conflicts
   get 'interests_list', to: 'interests#index', as: 'interests_list'
   get 'requests_list', to: 'requests#index', as: 'requests_list'
-
+  
   # This route will respond to any OPTIONS requests and prevent routing errors
   match '*path', to: 'application#preflight', via: :options
 end

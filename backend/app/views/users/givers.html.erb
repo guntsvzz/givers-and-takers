@@ -1,26 +1,26 @@
-<h1>List of Givers</h1>
-
-<% if @givers.any? %>  <!-- Check if there are any givers -->
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Organization Name</th>
-        <th>Organization Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @givers.each do |giver| %>
-        <tr>
-          <td><%= giver.first_name %></td>
-          <td><%= giver.last_name %></td>
-          <td><%= giver.organization_name %></td>
-          <td><%= User.organization_types.key(giver.read_attribute_before_type_cast(:role).to_i)&.humanize %></td>
-        </tr>
+<div class="giver-content">
+  <div class="donation-leaderboard-wrapper">
+    <div class="donation-container">
+      <% if @givers.any? %>
+        <div class="leaderboard">
+          <h2>Top Givers</h2>
+          <ul class="donators-list">
+            <% @givers.each_with_index do |giver, i| %>
+              <li>
+                <span class="rank"><%= i + 1 %></span>
+                <img 
+                  src="<%= giver.image_url.present? ? giver.image_url : asset_path('organizer-avatar.png') %>" 
+                  alt="<%= giver.first_name %>" 
+                  class="donator-image">
+                <span class="name">Name: <%= "#{giver.first_name} #{giver.last_name}" %></span>
+                <span class="donates"><%= giver.total_interested_quantity || 0 %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% else %>
+        <p>No givers found.</p>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>No givers found.</p>
-<% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="about-wrapper">
+  <div class="about-us">
+    <h1>Settings</h1>
+
+    <!-- Settings Tabs -->
+    <div class="settings-header">
+      <button class="tab-button" onclick="selectTab('account')">Account</button>
+      <button class="tab-button" onclick="selectTab('notifications')">Notifications</button>
+    </div>
+
+    <!-- Account Information Section -->
+    <div id="account-tab" class="settings-tab" style="display: block;">
+      <%= form_for(@resource, as: @resource_name, url: registration_path(@resource_name), html: { method: :put, id: 'settings-form' }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: @resource %>
+
+        <div class="settings-item">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, id: 'first_name', disabled: true, class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('first_name', this)">Edit</button>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, id: 'last_name', disabled: true, class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('last_name', this)">Edit</button>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", disabled: true, id: 'email', class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('email', this)">Edit</button>
+        </div>
+        
+        <!-- Role Field (Make sure to include role) -->
+        <div class="settings-item">
+          <%= f.label :role %>
+          <%= f.select :role, User.roles.keys.map { |role| [role.humanize, role] }, include_blank: false, disabled: true, id: 'role', class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('role', this)">Edit</button>
+        </div>
+        
+        <div class="settings-item">
+          <%= f.label :address %>
+          <%= f.text_field :address, disabled: true, id: 'address', class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('address', this)">Edit</button>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :organization_type %>
+          <%= f.select :organization_type, User.organization_types.keys.map { |org_type| [org_type.humanize, org_type] }, disabled: true, id: 'organization_type', class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('organization_type', this)">Edit</button>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :organization_name %>
+          <%= f.text_field :organization_name, disabled: true, id: 'organization_name', class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('organization_name', this)">Edit</button>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :phone_number %>
+          <%= f.telephone_field :phone_number, autocomplete: "tel", disabled: true, id: 'phone_number', class: 'editable-field' %>
+          <button type="button" class="edit-button" onclick="toggleEdit('phone_number', this)">Edit</button>
+        </div>
+
+        <% if @devise_mapping.confirmable? && @resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= @resource.unconfirmed_email %></div>
+        <% end %>
+
+        <div class="settings-item">
+          <%= f.label :current_password %> 
+          <%= f.password_field :current_password, autocomplete: "current-password" %>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :password %> 
+          <%= f.password_field :password, autocomplete: "new-password" %>
+          <% if @minimum_password_length %>
+            <em><%= @minimum_password_length %> characters minimum</em>
+          <% end %>
+        </div>
+
+        <div class="settings-item">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Update", class: "confirm-button" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Notification Settings Section -->
+    <div id="notifications-tab" class="settings-tab" style="display: none;">
+      <h2>Notification Settings</h2>
+      <p>Here you can manage your notification preferences.</p>
+      <!-- Add specific notification settings here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // JavaScript to toggle between tabs
+  function selectTab(tab) {
+    // Hide all tabs
+    document.getElementById('account-tab').style.display = 'none';
+    document.getElementById('notifications-tab').style.display = 'none';
+
+    // Show the selected tab
+    if (tab === 'account') {
+      document.getElementById('account-tab').style.display = 'block';
+    } else if (tab === 'notifications') {
+      document.getElementById('notifications-tab').style.display = 'block';
+    }
+  }
+
+  // JavaScript to toggle edit mode for form fields
+  function toggleEdit(fieldId, button) {
+    const inputField = document.querySelector(`#${fieldId}`);
+    inputField.disabled = !inputField.disabled;
+    button.textContent = inputField.disabled ? 'Edit' : 'Save';
+  }
+
+  // Initialize with the account tab open
+  document.addEventListener("DOMContentLoaded", function() {
+    selectTab('account');
+  });
+</script>

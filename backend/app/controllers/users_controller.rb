@@ -6,13 +6,13 @@ class UsersController < ApplicationController
     # end
 
     def givers
-      @givers = User.where(role: 1).select(:id, :first_name, :last_name, :organization_name, :organization_type) # Assuming 'role' is the attribute identifying giver users
+      @givers = User.where(role: 1).select(:id, :first_name, :last_name, :organization_name, :organization_type, :status) # Assuming 'role' is the attribute identifying giver users
     end
   
     def takers
-      @takers = User.where(role: 2).select(:id, :first_name, :last_name, :organization_name, :organization_type) # Assuming 'role' is the attribute identifying taker users
+      @takers = User.where(role: 2).select(:id, :first_name, :last_name, :organization_name, :organization_type, :status)
     end
-
+        
     # def user_params
     #   params.require(:user).permit(:first_name, :last_name, :organization_name, :organization_type, :role, :email, :password)
     # end    

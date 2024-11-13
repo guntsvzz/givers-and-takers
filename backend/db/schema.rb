@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_12_142415) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_13_124902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_12_142415) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "status"
     t.index ["request_id"], name: "index_interests_on_request_id"
     t.index ["user_id"], name: "index_interests_on_user_id"
   end
@@ -66,6 +67,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_12_142415) do
     t.string "title"
     t.datetime "start_time"
     t.datetime "end_time"
+    t.string "image_url"
   end
 
   create_table "users", force: :cascade do |t|
@@ -73,9 +75,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_12_142415) do
     t.string "last_name", null: false
     t.string "address", null: false
     t.string "organization_name", null: false
-    t.string "organization_type", null: false
+    t.string "organization_type", default: "0", null: false
     t.string "phone_number", null: false
-    t.string "role", null: false
+    t.string "role", default: "1", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -83,6 +85,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_12_142415) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_url"
+    t.string "status"
+    t.integer "donates"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

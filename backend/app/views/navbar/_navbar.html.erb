@@ -1,28 +1,40 @@
 <nav>
-    <div class="nav-container">
-        <!-- Left-side navigation links -->
-        <div class="nav-links">
-            <%= link_to 'Search', search_path, class: 'btn basic' %>
-            <%= link_to 'Giver', givers_path, class: 'btn basic' %>
-            <%= link_to 'Taker', takers_path, class: 'btn basic' %>
-        </div>
-    
-        <!-- Logo centered in the middle -->
-        <div class="logo">
-            <%= link_to root_path do %>
-                <img src="../assets/logo.png" alt="Givers & Takers Logo">
-            <% end %>
-        </div>
-    
-        <!-- Right-side navigation links -->
-        <div class="nav-links">
-            <%= link_to 'About Us', about_us_path, class: 'btn basic' %>
-            <% if user_signed_in? %>
-                <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'btn basic' %>
-            <% else %>
-                <%= link_to 'Sign In', new_user_session_path, class: 'btn basic' %>
-            <% end %>
-        </div>
+  <div class="nav-container">
+    <!-- Left-side navigation links -->
+    <div class="nav-links">
+      <%= link_to 'Search', search_path, class: 'btn basic' %>
+      <%= link_to 'Giver', givers_path, class: 'btn basic' %>
+      <%= link_to 'Taker', takers_path, class: 'btn basic' %>
     </div>
-</nav>
 
+    <!-- Logo centered in the middle -->
+    <div class="logo">
+      <%= link_to root_path do %>
+        <%= image_tag 'logo.png', alt: 'Givers & Takers Logo' %>
+      <% end %>
+    </div>
+
+    <!-- Right-side navigation links -->
+    <div class="nav-links">
+      <%= link_to 'About Us', about_us_path, class: 'btn basic' %>
+
+      <% if user_signed_in? %>
+        <!-- Dropdown menu for logged-in users -->
+        <div class="account-menu">
+          <a class="btn basic">Your Account</a>
+          
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu">
+            <%= link_to 'Your Give', account_giver_path, class: 'dropdown-item' %>
+            <%= link_to 'Your Take', account_taker_path, class: 'dropdown-item' %>
+            <%= link_to 'Settings', account_settings_path, class: 'dropdown-item' %>
+            <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'dropdown-item', data: { turbo: false } %>
+          </div>
+        </div>
+      <% else %>
+        <!-- Sign in link if user is not logged in -->
+        <%= link_to 'Sign In', new_user_session_path, class: 'btn basic' %>
+      <% end %>
+    </div>
+  </div>
+</nav>

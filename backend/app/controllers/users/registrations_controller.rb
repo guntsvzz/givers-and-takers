@@ -1,26 +1,49 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  skip_before_action :verify_authenticity_token, only: [:create]
-  # before_action :configure_sign_up_params, only: [:create]
+  # skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    @selected_role = params[:role]
+    @show_role_selection = @selected_role.nil?
+    puts "Role param: #{params[:role]}" # Debug log
+    super
+  end
 
   # POST /resource
+  def create
+    # if params[:role] == 'giver'
+    #   params[:user][:role] = User.roles[:giver]
+    # elsif params[:role] == 'taker'
+    #   params[:user][:role] = User.roles[:taker]
+    # end
+    
+    # Convert role string to integer based on enum
+    if sign_up_params[:role] == 'giver'
+      params[:user][:role] = User.roles[:giver]
+    else
+      params[:user][:role] = User.roles[:taker]
+    end
+
+    # Ensure `organization_type` is set if it's coming from params
+    params[:user][:organization_type] ||= User.organization_types[:non_profit] # Set a default if needed
+    
+    super
+  end
+
   # def create
+  #   # Convert role string to integer based on enum
+  #   if sign_up_params[:role] == 'giver'
+  #     params[:user][:role] = User.roles[:giver]
+  #   else
+  #     params[:user][:role] = User.roles[:taker]
+  #   end
+    
   #   super
   # end
-  def create
-    super do |resource|
-      # After the user is successfully created, generate a token and include it in the response
-      token = encode_token(user_id: resource.id) if resource.persisted?
-      render json: { message: 'User created successfully.', user: resource, token: token }, status: :created and return if resource.persisted?
-    end
-  end
 
   # GET /resource/edit
   # def edit
@@ -46,7 +69,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
@@ -62,8 +85,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :organization_name, 
       :phone_number
     ])
-  end
-
+  end  
+  
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
@@ -78,9 +101,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-  def encode_token(payload)
-    JWT.encode(payload, Rails.application.credentials.secret_key_base)
-  end
+  # def encode_token(payload)
+  #   JWT.encode(payload, Rails.application.credentials.secret_key_base)
+  # end 
+  
+  private
 
   def sign_up_params
     params.require(:user).permit(
@@ -93,6 +118,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :role, 
       :organization_type, 
       :organization_name, 
-      :phone_number)
-  end
+      :phone_number
+    )
+  end  
 end

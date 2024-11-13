@@ -19,3 +19,17 @@ module ApplicationHelper
       end
     end
   end
+
+  # app/helpers/application_helper.rb
+  def get_status_image(status)
+    case status
+    when User::STATUSES[:verified]
+      asset_path('verified.png')
+    when User::STATUSES[:non_verified]
+      asset_path('non-verified.png')
+    else
+      asset_path('default-status.png')
+    end
+  end
+
+
