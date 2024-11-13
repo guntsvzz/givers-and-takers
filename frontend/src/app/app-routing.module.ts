@@ -7,6 +7,10 @@ import { GiverComponent } from './giver/giver.component';
 import { TakerComponent } from './taker/taker.component';
 import { SearchComponent } from './search/search.component';
 
+import { SettingsComponent } from './account/settings/settings.component';
+import { GiverAccountComponent } from './account/giver/giver.component';
+import { TakerAccountComponent } from './account/taker/taker.component';
+
 // Assume AuthModule is lazy-loaded
 const routes: Routes = [
   { path: '', component: HomeComponent },            
@@ -18,6 +22,9 @@ const routes: Routes = [
     path: 'auth', 
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) 
   },  
+  { path: 'account/settings', component: SettingsComponent },
+  { path: 'account/giver', component: GiverAccountComponent },
+  { path: 'account/taker', component: TakerAccountComponent },
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

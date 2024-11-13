@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthModule } from './auth/auth.module';
 import { FooterComponent } from './footer/footer.component';
+import { SettingsComponent } from './account/settings/settings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { FooterComponent } from './footer/footer.component';
     TakerComponent,
     SearchComponent,
     FooterComponent,
+    SettingsComponent,
     // SignupComponent
   ],
   imports: [
