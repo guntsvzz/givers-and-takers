@@ -1,16 +1,69 @@
-<!-- <p style="color: green"><%= notice %></p> -->
+<div style="background-color: #f7f9fc; padding: 20px; border-radius: 20px; max-width: 800px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; gap: 20px;">
+  <!-- Left Side: Picture, Title, Description, Back Link -->
+  <div style="flex: 1;">
+    <%= image_tag @request.image_url.presence || 'default_image.png', alt: "Image for #{@request.title}", size: "150x150", style: "border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" %>
+    <h2 style="font-size: 24px; font-weight: bold; color: #2b3a42; margin-bottom: 10px;"><%= @request.title %></h2>
+    <p><%= @request.taker.organization_name %> is an organizer</p>
+    <p style="font-size: 18px; color: #555; margin-bottom: 20px;"><%= @request.description %></p>
+    <%= link_to "Back to requests", requests_path, style: "display: block; font-size: 16px; color: #333; text-decoration: underline;" %>
+  </div>
 
-<%= render @request %>
+  <!-- Right Side: Set Raised, Set Goal, Donate Button, Donors List -->
+  <div style="flex: 1;">
+    <div style="margin-bottom: 20px;">
+      <p style="font-weight: bold; color: #2b3a42; font-size: 18px; margin: 0;"><%= @request.interests.where(status: 1).sum(:quantity) %> Set raised</p>
+      <p style="color: #777; font-size: 16px; margin: 0;"><%= @request.quantity %> Set Goal</p>
+      <div style="background-color: #e0e0e0; border-radius: 10px; height: 20px; width: 100%; position: relative; margin-top: 10px;">
+        <div style="background-color: #4caf50; height: 100%; width: <%= [(@request.interests.where(status: 1).sum(:quantity).to_f / @request.quantity * 100).round(2), 100].min %>%; border-radius: 10px;"></div>
+        <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #333; font-weight: bold;">
+          <%= [(@request.interests.where(status: 1).sum(:quantity).to_f / @request.quantity * 100).round(2), 100].min %>%
+        </span>
+      </div>
+    </div>
 
-<div>
-  <p>Current User Role (raw): <%= current_user.inspect %></p>
-  <p>Current User Role: <%= current_user.role %></p>
-  <p>Is Giver?: <%= current_user.giver? %></p>
-  <p>Is Taker?: <%= current_user.taker? %></p>
+    <%= link_to "Donate Now", new_request_donation_path(@request), class: "btn btn-primary", style: "background-color: #333; color: white; width: 120px; height: 50px; border-radius: 25px; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); margin-bottom: 20px;" %>
 
-  <% if current_user.role != 2 %>
-    <%= link_to "Edit this request", edit_request_path(@request) %> |
-    <%= button_to "Destroy this request", @request, method: :delete %>
-  <% end %>
-  <%= link_to "Back to requests", requests_path %>
+    <h3 style="font-size: 20px; font-weight: bold; color: #2b3a42; margin-bottom: 10px;"><%= pluralize(@request.interests.where(status: 1).count, "person") %> just donated</h3>
+    
+    <ul id="donors-list" style="list-style: none; padding: 0; margin: 0; font-size: 16px; color: #555;">
+      <% @request.interests.where(status: 1).limit(3).each do |interest| %>
+        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+          <span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; background: url('icon.png') no-repeat center center; background-size: contain;"></span>
+          <%= "#{interest.user.first_name} #{interest.user.last_name}" %> - <%= interest.quantity %> Set
+        </li>
+      <% end %>
+    </ul>
+
+    <% if @request.interests.where(status: 1).count > 3 %>
+      <button onclick="toggleDonorsList()" id="toggle-button" style="font-size: 16px; color: #007bff; background: none; border: none; cursor: pointer; text-decoration: underline;">See All</button>
+    <% end %>
+
+    <!-- Full list (hidden by default) -->
+    <ul id="all-donors-list" style="display: none; list-style: none; padding: 0; margin: 0; font-size: 16px; color: #555;">
+      <% @request.interests.where(status: 1).each do |interest| %>
+        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+          <span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; background: url('icon.png') no-repeat center center; background-size: contain;"></span>
+          <%= "#{interest.user.first_name} #{interest.user.last_name}" %> - <%= interest.quantity %> Set
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
+
+<script>
+  function toggleDonorsList() {
+    const allDonorsList = document.getElementById('all-donors-list');
+    const donorsList = document.getElementById('donors-list');
+    const toggleButton = document.getElementById('toggle-button');
+    
+    if (allDonorsList.style.display === 'none') {
+      allDonorsList.style.display = 'block';
+      donorsList.style.display = 'none';
+      toggleButton.textContent = 'Show Less';
+    } else {
+      allDonorsList.style.display = 'none';
+      donorsList.style.display = 'block';
+      toggleButton.textContent = 'See All';
+    }
+  }
+</script>

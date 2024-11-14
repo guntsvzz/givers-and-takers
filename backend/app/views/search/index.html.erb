@@ -1,23 +1,19 @@
 <!-- Main Search Section -->
-<div class="main-search">
-  <h1>Find Takers and Non-profits</h1>
-  
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <%= form_with url: search_path, method: :get, local: true do |form| %>
-      <%= form.text_field :query, placeholder: "Search", class: "search-input" %>
-      <%= form.submit "Search", class: "search-btn" %>
-    <% end %>
+<div class="auth-container-wrapper">
+  <div class="auth-container">
+    <div class="main-search">
+      <h1>Find Takers and Non-profits</h1>
+      
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <%= form_with url: search_path, method: :get, local: true do |form| %>
+          <%= form.text_field :query, placeholder: "Search", value: params[:query], class: "search-input" %>
+          <%= form.submit "Search", class: "search-btn" %>
+          <%= link_to "New request", new_request_path %>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  
-  <!-- Category Navigation -->
-  <!--<div class="category-nav">
-    <%= button_tag 'Trending', class: 'category-btn active' %>
-    <%= button_tag 'Near you', class: 'category-btn' %>
-    <%= button_tag 'Nonprofit', class: 'category-btn' %>
-  </div> -->
-</div>
 
 <!-- Content Cards Section -->
 <div class="content-cards">
@@ -28,7 +24,12 @@
         <!-- Fallback to 'default_image.png' if image_url is nil or blank -->
         <%= image_tag @requests.first.image_url.presence || 'default_image.png', alt: "Image for #{@requests.first.title}" %>
         <h3><%= @requests.first.title %></h3>
-        <div class="progress-bar"></div>
+        
+        <!-- Progress Bar for the first card -->
+        <div style="background-color: #e0e0e0; border-radius: 10px; height: 20px; width: 100%; margin: 10px 0;">
+          <div style="background-color: #4caf50; height: 100%; width: <%= [(@requests.first.interests.where(status: 1).sum(:quantity).to_f / @requests.first.quantity * 100).round(2), 100].min %>%; border-radius: 10px;"></div>
+        </div>
+
         <p><%= @requests.first.taker.organization_name %> is an organizer</p>
       </div>
     <% end %>
@@ -40,7 +41,12 @@
           <!-- Fallback to 'default_image.png' if image_url is nil or blank -->
           <%= image_tag request.image_url.presence || 'default_image.png', alt: "Image for #{request.title}" %>
           <h3><%= request.title %></h3>
-          <div class="progress-bar"></div>
+
+          <!-- Progress Bar for each additional card -->
+          <div style="background-color: #e0e0e0; border-radius: 10px; height: 20px; width: 100%; margin: 10px 0;">
+            <div style="background-color: #4caf50; height: 100%; width: <%= [(request.interests.where(status: 1).sum(:quantity).to_f / request.quantity * 100).round(2), 100].min %>%; border-radius: 10px;"></div>
+          </div>
+
           <p><%= request.taker.organization_name %> is an organizer</p>
         </div>
       <% end %>
@@ -48,4 +54,5 @@
   <% else %>
     <p>No requests available.</p>
   <% end %>
+</div>
 </div>

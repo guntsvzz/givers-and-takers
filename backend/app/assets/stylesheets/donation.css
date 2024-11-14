@@ -1,0 +1,111 @@
+/* donation.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('children.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  header {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .nav-links a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .logo img {
+    height: 30px;
+  }
+  
+  .main-section {
+    background-color: white;
+    padding: 20px;
+    margin: 40px auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .flex img {
+    max-width: 40%;
+    border-radius: 10px;
+    height: auto;
+  }
+  
+  .flex .text-content {
+    margin-left: 20px;
+    flex-grow: 1;
+  }
+  
+  .progress-bar {
+    height: 20px;
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    width: 75%;
+    background-color: #007bff;
+    border-radius: 10px;
+  }
+  
+  .donation-input {
+    margin-top: 20px;
+  }
+  
+  .donation-input input {
+    width: 48%;
+    padding: 10px;
+    margin-right: 4%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .donation-input button {
+    width: 48%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .confirm-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  

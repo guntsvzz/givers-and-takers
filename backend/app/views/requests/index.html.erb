@@ -1,16 +1,52 @@
-<p style="color: green"><%= notice %></p>
+<!-- Main Search Section -->
+<div class="main-search">
+  <h1>Find Takers and Non-profits</h1>
+  
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <%= form_with url: search_path, method: :get, local: true do |form| %>
+      <%= form.text_field :query, placeholder: "Search", class: "search-input" %>
+      <%= form.submit "Search", class: "search-btn" %>
+      <%= link_to "New request", new_request_path %>
+    <% end %>
+  </div>
 
-<% content_for :title, "Requests" %>
-
-<h1>Requests</h1>
-
-<div id="requests">
-  <% @requests.each do |request| %>
-    <%= render request %>
-    <p>
-      <%= link_to "Show this request", request %>
-    </p>
-  <% end %>
+  
+  <!-- Category Navigation -->
+  <!--<div class="category-nav">
+    <%= button_tag 'Trending', class: 'category-btn active' %>
+    <%= button_tag 'Near you', class: 'category-btn' %>
+    <%= button_tag 'Nonprofit', class: 'category-btn' %>
+  </div> -->
 </div>
 
-<%= link_to "New request", new_request_path %>
+<!-- Content Cards Section -->
+<div class="content-cards">
+  <!-- Highlighted first card -->
+  <% if @requests.present? %>
+    <%= link_to request_path(@requests.first), class: "card-link" do %>
+      <div class="card highlight">
+        <!-- Fallback to 'default_image.png' if image_url is nil or blank -->
+        <%= image_tag @requests.first.image_url.presence || 'default_image.png', alt: "Image for #{@requests.first.title}" %>
+        <h3><%= @requests.first.title %></h3>
+        <div class="progress-bar"></div>
+        <p><%= @requests.first.taker.organization_name %> is an organizer</p>
+      </div>
+    <% end %>
+
+    <!-- Regular cards for the rest -->
+    <% @requests[1..-1].each do |request| %>
+      <%= link_to request_path(request), class: "card-link" do %>
+        <div class="card">
+          <!-- Fallback to 'default_image.png' if image_url is nil or blank -->
+          <%= image_tag request.image_url.presence || 'default_image.png', alt: "Image for #{request.title}" %>
+          <h3><%= request.title %></h3>
+          <div class="progress-bar"></div>
+          <p><%= request.taker.organization_name %> is an organizer</p>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>No requests available.</p>
+  <% end %>
+</div>

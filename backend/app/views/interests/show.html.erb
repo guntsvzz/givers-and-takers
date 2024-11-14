@@ -3,8 +3,9 @@
 <%= render @interest %>
 
 <div>
-  <%= link_to "Edit this interest", edit_interest_path(@interest) %> |
+  <% if current_user.role != "taker" && current_user.id == @interest.user_id %>
+    <%= link_to "Edit this interest", edit_interest_path(@interest) %> |
+    <%= button_to "Destroy this interest", @interest, method: :delete %>
+  <<% end %>
   <%= link_to "Back to interests", interests_path %>
-
-  <%= button_to "Destroy this interest", @interest, method: :delete %>
 </div>

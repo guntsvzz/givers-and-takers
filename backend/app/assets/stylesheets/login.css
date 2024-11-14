@@ -1,90 +1,102 @@
+/* General Page Style */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #4A90E2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-    
-  .auth-container-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #4A90E2;
-  }
-  
-  .auth-container {
-    background-color: white;
-    border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    max-width: 350px; /* Set a max-width for consistent alignment */
-  }
-  
-  .logo {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  h1 {
-    color: #2C3E50;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; /* Ensure form elements are aligned properly */
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  label {
-    font-size: 0.9rem;
-    color: #2C3E50;
-    margin-bottom: 5px;
-  }
-  
-  input {
-    padding: 10px;
-    border: 1px solid #BDC3C7;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  button {
-    background-color: #2C3E50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 100%; /* Full width for the button */
-  }
-  
-  a {
-    color: #2C3E50;
-    text-decoration: none;
-  }
-  
-  .text-center {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .error-message {
-    color: #d9534f; /* Red color for error message */
-    font-size: 0.9rem;
-    margin-top: 5px;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #4A90E2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Container Wrapper for Centering */
+.auth-container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw; /* Ensure it takes full width */
+  background-color: #4A90E2;
+}
+
+/* Sign-in Form Container */
+.auth-container {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 350px; /* Set a max-width for consistent alignment */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for styling */
+}
+
+/* Logo Alignment */
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Sign-in Title */
+h1 {
+  color: #2C3E50;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Ensure form elements are aligned properly */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Label and Input Styling */
+label {
+  font-size: 0.9rem;
+  color: #2C3E50;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #BDC3C7;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Button Styling */
+button {
+  background-color: #2C3E50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%; /* Full width for the button */
+}
+
+/* Link Styling */
+a {
+  color: #2C3E50;
+  text-decoration: none;
+}
+
+/* Centered Text */
+.text-center {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #d9534f; /* Red color for error message */
+  font-size: 0.9rem;
+  margin-top: 5px;
+}

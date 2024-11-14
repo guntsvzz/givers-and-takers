@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Givers & Takers - Transparent Giving Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url(<%= asset_path('children.jpg') %>);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .main-section {
+      background-color: white;
+      padding: 20px;
+      margin: 40px auto;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .flex img {
+      max-width: 40%;
+      border-radius: 10px;
+      height: auto;
+    }
+    .flex .text-content {
+      margin-left: 20px;
+      flex-grow: 1;
+    }
+    .progress-bar {
+      height: 20px;
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #4caf50;
+      border-radius: 10px;
+    }
+    .donation-input, .delivery-method-input {
+      margin-top: 20px;
+    }
+    .donation-input input, .delivery-method-input select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .confirm-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <section class="main-section">
+      <div class="flex">
+        <%= image_tag @request.image_url.presence || 'default_image.png', alt: 'Beneficiary', class: 'beneficiary-image' %>
+        <div class="text-content">
+          <h2 style="font-size: 1.5em; color: #333;">You’re supporting <span style="color: #007bff;"><%= @request.title %></span>.</h2>
+          <p style="color: #666;">Your donation will benefit <%= @request.taker.organization_name %></p>
+        </div>
+      </div>
+
+      <%# Calculate completed percentage and remaining quantity %>
+      <% completed_quantity = @request.interests.where(status: 1).sum(:quantity).to_i %>
+      <% remaining_quantity = @request.quantity - completed_quantity %>
+      <% progress_ratio = (completed_quantity / @request.quantity.to_f * 100).round(2) %>
+
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: <%= [progress_ratio, 100].min %>%"></div>
+      </div>
+      <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+        Hurry up!!! They need only <%= remaining_quantity %> more sets to reach the goal
+      </p>
+
+      <%= form_with url: request_donations_path, method: :post, local: true do |f| %>
+
+        <%= f.hidden_field :status, value: 0 %> <!-- Sets status to 0 by default -->
+
+        <div class="donation-input">
+          <label for="interest_quantity" style="font-weight: bold; color: #333;">Enter Quantity</label>
+          <%= f.number_field :quantity, id: 'interest_quantity', min: 1, max: remaining_quantity, style: 'width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;' %>
+        </div>
+
+        <div class="delivery-method-input">
+          <label for="interest_delivery_method" style="font-weight: bold; color: #333;">Choose Delivery Method</label>
+          <%= f.select :delivery_method, options_for_select(Interest.delivery_methods.keys.map { |method| [method.humanize, method] }), { prompt: 'Choose Delivery Method' }, { id: 'interest_delivery_method', style: 'width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;' } %>
+        </div>
+
+        <%= f.submit 'Confirm', class: 'confirm-btn' %>
+      <% end %>
+    </section>
+  </main>
+
+</body>
+</html>

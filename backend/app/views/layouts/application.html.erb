@@ -26,13 +26,17 @@
     <%= stylesheet_link_tag 'about', media: 'all' %> <!-- About page styles -->
     <%= stylesheet_link_tag 'signup', media: 'all' %> <!-- Sign Up page styles -->
     <%= stylesheet_link_tag 'settings', media: 'all' %> <!-- Settings page styles -->
+    <%= stylesheet_link_tag 'search', media: 'all' %> <!-- Search page styles -->
+    <%= stylesheet_link_tag 'request', media: 'all' %>
+
     <%= javascript_importmap_tags %>
     
   </head>
 
   <body>
-    <%= render 'navbar/navbar' %>
+    <%= render "navbar/navbar" %> <!-- if navbar.html.erb is a partial -->
 
     <%= yield %>
+
   </body>
 </html>

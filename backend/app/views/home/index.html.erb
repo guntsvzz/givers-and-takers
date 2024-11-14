@@ -5,7 +5,7 @@
         <div class="hero-content">
             <h1>Transparent Giving, Tangible Impact</h1>
             <p>Connecting donors and recipients for practical assistance.</p>
-            <%= link_to 'Start Giving', '#', class: 'btn' %>
+            <%= link_to 'Start Giving', (user_signed_in? ? search_path : new_user_session_path), class: 'btn' %>
         </div>
     </section>
 

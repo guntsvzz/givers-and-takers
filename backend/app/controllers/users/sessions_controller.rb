@@ -1,7 +1,3 @@
-# frozen_string_literal: true
-
-# require 'jwt'
-
 class Users::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
 
@@ -45,9 +41,9 @@ class Users::SessionsController < Devise::SessionsController
 
   private
 
-  def respond_to_on_destroy
-    head :no_content
-  end
+  # def respond_to_on_destroy
+  #   head :no_content
+  # end
 
   # def respond_with(resource, _opts = {})
   #   token = encode_token(user_id: resource.id)  # Generate the token

@@ -1,7 +1,9 @@
 class SearchController < ApplicationController
   def index
     if params[:query].present?
-      @requests = Request.where("title LIKE ?", "%#{params[:query]}%")
+      query = params[:query].downcase
+      puts "Query: #{query}"
+      @requests = Request.where("LOWER(title) LIKE ?", "%#{query}%")
     else
       @requests = Request.all
     end

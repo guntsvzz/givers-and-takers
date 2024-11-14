@@ -30,7 +30,10 @@
             <% end %>
           </div>
           
-          <%= f.submit "Sign In", class: "btn btn-primary" %>
+          <!-- Centering the Sign In button -->
+          <div class="text-center">
+            <%= f.submit "Sign In", class: "btn btn-primary" %>
+          </div>
         <% end %>
 
         <p class="text-center">
@@ -43,5 +46,3 @@
     </div>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>

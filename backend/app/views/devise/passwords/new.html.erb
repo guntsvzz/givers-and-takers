@@ -12,15 +12,22 @@
       <%= form_with(model: resource, as: resource_name, url: password_path(resource_name), local: true) do |f| %>
         <div class="form-group">
           <%= f.label :email, 'Email' %>
-          <%= f.email_field :email, autofocus: true, placeholder: 'Email Address', required: true, class: "form-control" %>
+          <%= f.email_field :email, autofocus: true, placeholder: 'Email Address', required: true, class: "form-control", disabled: true, title: "This feature is currently unavailable" %>
           <% if resource.errors[:email].any? %>
             <div class="error-message">
               Please enter a valid email address.
             </div>
           <% end %>
         </div>
-        <%= f.submit "Reset password", class: "btn btn-primary" %>
+        
+        <!-- Disable the button and add a title for tooltip message -->
+        <%= f.submit "Reset password", class: "btn btn-primary", disabled: true, title: "This feature is currently unavailable" %>
       <% end %>
+
+      <!-- Feature Unavailable Message -->
+      <p class="unavailable-message" style="color: red; text-align: center; margin-top: 10px;">
+        This feature is currently unavailable.
+      </p>
 
       <p class="text-center">
         <%= link_to 'Return to sign in', new_session_path(resource_name) %>

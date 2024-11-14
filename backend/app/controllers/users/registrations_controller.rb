@@ -105,20 +105,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   JWT.encode(payload, Rails.application.credentials.secret_key_base)
   # end 
   
-  private
+  # private
 
-  def sign_up_params
-    params.require(:user).permit(
-      :first_name, 
-      :last_name, 
-      :email, 
-      :password,
-      :password_confirmation, 
-      :address,
-      :role, 
-      :organization_type, 
-      :organization_name, 
-      :phone_number
-    )
-  end  
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :address, :organization_name, :phone_number)
+    # Do not permit :role, :organization_type, or :status if they shouldn't be set via params
+  end
+
+  # def sign_up_params
+  #   params.require(:user).permit(
+  #     :first_name, 
+  #     :last_name, 
+  #     :email, 
+  #     :password,
+  #     :password_confirmation, 
+  #     :address,
+  #     :role, 
+  #     :organization_type, 
+  #     :organization_name, 
+  #     :phone_number
+  #   )
+  # end  
 end

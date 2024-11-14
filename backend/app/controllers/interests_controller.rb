@@ -42,6 +42,15 @@ class InterestsController < ApplicationController
     end
   end
 
+  # def create
+  #   @interest = Interest.new(interest_params)
+  #   if @interest.save
+  #     redirect_to interests_path, notice: "Interest created successfully."
+  #   else
+  #     render :new
+  #   end
+  # end
+
   # PATCH/PUT /interests/1 or /interests/1.json
   def update
     respond_to do |format|
@@ -66,21 +75,25 @@ class InterestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_interest
-      @interest = Interest.find(params[:id])
-    end
+  def interest_params
+    params.require(:interest).permit(:request_id, :quantity, :delivery_method)
+  end
+  
+  # # Use callbacks to share common setup or constraints between actions.
+  def set_interest
+    @interest = Interest.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def interest_params
-      params.require(:interest).permit(:request_id, :quantity, :delivery_method, :user_id)
-    end
-    
+  # Only allow a list of trusted parameters through.
+  def interest_params
+    params.require(:interest).permit(:request_id, :quantity, :delivery_method, :user_id)
+  end
+  
 
-    # Restrict access to authorized users
-    def authorize_user
-      unless current_user.admin? #|| current_user.has_role?(:authorized_user)
-        redirect_to root_path, alert: "You are not authorized to create interests."
-      end
-    end
+  # # Restrict access to authorized users
+  # def authorize_user
+  #   unless current_user.admin? #|| current_user.has_role?(:authorized_user)
+  #     redirect_to root_path, alert: "You are not authorized to create interests."
+  #   end
+  # end    
 end

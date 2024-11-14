@@ -5,13 +5,20 @@ Rails.application.routes.draw do
   get 'account/settings', to: 'account#settings', as: 'account_settings'
 
   get "home/index"
-  
+  get 'navbar', to: 'navbar#show' # example route if there's a 'show' action in the NavbarController
+
   devise_for :users, controllers: { 
     registrations: 'users/registrations',
     sessions: 'users/sessions'
   }
+  # resources :interests, only: [:new, :create]
   resources :interests
-  resources :requests #, only: [:show]
+  resources :requests do
+    resources :donations, only: [:new, :create, :show]
+  end
+  
+  # get "donations/show"
+  # get "donations/create"
   # resources :students 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

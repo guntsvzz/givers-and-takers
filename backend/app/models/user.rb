@@ -4,8 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # Use before_validation instead of after_initialize
+  before_validation :set_defaults, on: :create
+
   # Set a default value for new records
-  after_initialize :set_defaults, if: :new_record?
+  # after_initialize :set_defaults, if: :new_record?
 
   # has_many :interests, foreign_key: "giver_id"
   has_many :interests, foreign_key: "user_id"
@@ -15,13 +18,17 @@ class User < ApplicationRecord
   # Define roles using enum
   enum role: { admin: 0, giver: 1, taker: 2 }
   enum organization_type: { non_profit: 0, educational: 1, other: 2, corporate: 3, government: 4 }
-  enum status: { default: 0, verified: 1, non_verified: 2 }  # Replaced STATUSES constant with enum
-  
+  enum status: { default: 0, verified: 1, non_verified: 2 }
+
   # Validations
   # validates :phone_number, presence: true, format: { with: /\A\d{10}\z/, message: "must be 10 digits" }
   # validates :address, presence: true, length: { minimum: 10 }
-  validates :role, presence: true
-  validates :organization_type, presence: true
+  # validates :role, presence: true
+  # validates :organization_type, presence: true
+  validates :role, presence: true, inclusion: { in: roles.keys }
+  validates :organization_type, presence: true, inclusion: { in: organization_types.keys }
+  validates :status, presence: true, inclusion: { in: statuses.keys }
+
 
   def image_url
     # Use a default image if no specific URL is set
@@ -36,9 +43,9 @@ class User < ApplicationRecord
   }.freeze
 
   def set_defaults
-    self.status ||= :default
-    self.role ||= :giver
-    self.organization_type ||= :non_profit
+    self.status = :default if self.status.blank?
+    self.role = :giver if self.role.blank?
+    self.organization_type = :non_profit if self.organization_type.blank?
   end
 
   # Calculate the total quantity of items a user has shown interest in
