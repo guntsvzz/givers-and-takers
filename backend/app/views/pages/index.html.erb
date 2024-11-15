@@ -1,6 +1,5 @@
-<!-- <p>about works!</p> -->
-<div class="about-wrapper">
-  <div class="about-us">
+<div class="outer-background">
+  <div class="wrapper">
     <h1>About Us</h1>
     <p>Welcome to our platform, where givers and takers come together to make a difference. Our mission is to connect people who want to give with those who need support, fostering a community of mutual assistance.</p>
     <p>Our platform offers a transparent way to give and receive, ensuring that both sides can see the tangible impact of their actions. Whether you're looking to donate items or request help, we make it simple and easy to connect.</p>
@@ -12,4 +11,89 @@
     </ul>
   </div>
 </div>
-  
+
+<style>
+/* Resetting margins and padding for all elements */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Full-width blue background */
+.outer-background {
+  background-color: #4A90E2;
+  width: 100%;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Wrapper with white background and rounded corners */
+.wrapper {
+  max-width: 800px;
+  padding: 40px;
+  background-color: #F7F9FC;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+}
+
+/* Typography styling */
+.wrapper h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.wrapper p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.wrapper h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.wrapper ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.wrapper li {
+  font-size: 1rem;
+  color: #555;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+/* Custom bullet points for list items */
+.wrapper li::before {
+  content: "• ";
+  color: #4A90E2;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* Footer styling */
+.footer {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+</style>

@@ -1,16 +1,136 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Your interests" %>
 
-<% content_for :title, "Interests" %>
+<div class="wrapper">
+  <h1 style="text-align: center; font-size: 2rem; margin-top: 20px;">Your interests</h1>
 
-<h1>Interests</h1>
-
-<div id="interests">
-  <% @interests.each do |interest| %>
-    <%= render interest %>
-    <p>
-      <%= link_to "Show this interest", interest %>
-    </p>
+  <% if @interests.empty? %>
+    <p style="text-align: center; font-size: 1.2rem; color: #777;">There are no interests yet.</p>
+  <% else %>
+    <div class="interests-list">
+      <% @interests.each do |interest| %>
+        <div class="interest-item">
+          
+          <!-- Column 1: Image -->
+          <div class="interest-image">
+            <%= image_tag(interest.request.image_url.presence || "default_image.png", alt: "Request Image", class: "interest-img") %>
+          </div>
+          
+          <!-- Column 2: Title and Details Button -->
+          <div class="interest-title">
+            <h2><%= interest.request.title %></h2>
+            <%= link_to "Details", request_path(interest.request), class: "details-button" %>
+          </div>
+          
+          <!-- Column 3: Offer Information -->
+          <div class="interest-details">
+            <p>Your amount offer: <%= interest.quantity %></p>
+            <p>User: <%= interest.user_id %></p>
+            <p>Delivery: <%= interest.delivery_method %></p>
+            <p>Verify: <%= interest.request.status == 1 ? "✓" : "✗" %></p>
+          </div>
+          
+          <!-- Column 4: Status -->
+          <div class="interest-status">
+            <div class="status-box">
+              <p>Status</p>
+              <p><%= interest.status == 1 ? "Complete" : "Pending" %></p>
+            </div>
+          </div>
+          
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New interest", new_interest_path %>
+<style>
+  .wrapper {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #F7F9FC;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .interests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .interest-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 1fr; /* 4 columns */
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 15px;
+    border-radius: 15px;
+    gap: 20px;
+  }
+
+  .interest-image {
+    text-align: center;
+  }
+
+  .interest-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .interest-title {
+    text-align: left;
+  }
+
+  .interest-title h2 {
+      text-align: left; /* Ensures the title is left-aligned */
+      margin: 0; /* Removes any default margin that might be causing misalignment */
+      font-size: 1.2rem;
+  }
+
+  .details-button {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .details-button:hover {
+    background-color: #0056b3;
+  }
+
+  .interest-details p {
+    margin: 5px 0;
+  }
+
+  .interest-status {
+    text-align: center;
+  }
+
+  .status-box {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+  }
+
+  .status-box p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .status-box p:nth-child(2) {
+    font-size: 1.1rem;
+    color: #3b5998;
+  }
+</style>

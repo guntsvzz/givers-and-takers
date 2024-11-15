@@ -12,4 +12,7 @@ class AccountController < ApplicationController
 
   def taker
   end
+
+  def profile
+  end
 end

@@ -7,4 +7,7 @@ class AccountsController < ApplicationController
 
   def settings
   end
+
+  def profile
+  end
 end

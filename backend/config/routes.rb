@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   get 'account/giver', to: 'account#giver', as: 'account_giver'
   get 'account/taker', to: 'account#taker', as: 'account_taker'
   get 'account/settings', to: 'account#settings', as: 'account_settings'
+  get 'account/profile', to: 'account#profile', as: 'account_profile'
 
   get "home/index"
-  get 'navbar', to: 'navbar#show' # example route if there's a 'show' action in the NavbarController
+  # get 'navbar', to: 'navbar#show' # example route if there's a 'show' action in the NavbarController
 
   devise_for :users, controllers: { 
     registrations: 'users/registrations',

@@ -1,52 +1,197 @@
-<!-- Main Search Section -->
-<div class="main-search">
-  <h1>Find Takers and Non-profits</h1>
-  
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <%= form_with url: search_path, method: :get, local: true do |form| %>
-      <%= form.text_field :query, placeholder: "Search", class: "search-input" %>
-      <%= form.submit "Search", class: "search-btn" %>
-      <%= link_to "New request", new_request_path %>
-    <% end %>
+<div class="outer-background">
+<div class="wrapper">
+  <!-- Main Search Section -->
+  <div class="main-search">
+    <h1>Find Recipients and Nonprofits</h1>
+
+    <!-- Search Bar and Button Row -->
+    <div class="search-row">
+      <%= form_with url: search_path, method: :get, local: true do |form| %>
+        <%= form.text_field :query, placeholder: "Search", class: "search-input" %>
+        <%= form.submit "Search", class: "search-btn" %>
+      <% end %>
+    </div>
+
+    <!-- New Request Link Row -->
+    <div class="new-request-row">
+      <%= link_to "New request", new_request_path, class: "new-request-link" %>
+    </div>
   </div>
 
-  
-  <!-- Category Navigation -->
-  <!--<div class="category-nav">
-    <%= button_tag 'Trending', class: 'category-btn active' %>
-    <%= button_tag 'Near you', class: 'category-btn' %>
-    <%= button_tag 'Nonprofit', class: 'category-btn' %>
-  </div> -->
-</div>
-
-<!-- Content Cards Section -->
-<div class="content-cards">
-  <!-- Highlighted first card -->
-  <% if @requests.present? %>
-    <%= link_to request_path(@requests.first), class: "card-link" do %>
-      <div class="card highlight">
-        <!-- Fallback to 'default_image.png' if image_url is nil or blank -->
-        <%= image_tag @requests.first.image_url.presence || 'default_image.png', alt: "Image for #{@requests.first.title}" %>
-        <h3><%= @requests.first.title %></h3>
-        <div class="progress-bar"></div>
-        <p><%= @requests.first.taker.organization_name %> is an organizer</p>
-      </div>
-    <% end %>
-
-    <!-- Regular cards for the rest -->
-    <% @requests[1..-1].each do |request| %>
-      <%= link_to request_path(request), class: "card-link" do %>
-        <div class="card">
-          <!-- Fallback to 'default_image.png' if image_url is nil or blank -->
-          <%= image_tag request.image_url.presence || 'default_image.png', alt: "Image for #{request.title}" %>
-          <h3><%= request.title %></h3>
+  <!-- Content Cards Section -->
+  <div class="content-cards">
+    <!-- Highlighted first card -->
+    <% if @requests.present? %>
+      <%= link_to request_path(@requests.first), class: "card-link" do %>
+        <div class="card highlight">
+          <%= image_tag @requests.first.image_url.presence || 'default_image.png', alt: "Image for #{@requests.first.title}", class: "card-img" %>
+          <h3><%= @requests.first.title %></h3>
           <div class="progress-bar"></div>
-          <p><%= request.taker.organization_name %> is an organizer</p>
+          <p><%= @requests.first.taker.organization_name %> is an organizer</p>
         </div>
       <% end %>
+
+      <!-- Regular cards for the rest -->
+      <% @requests[1..-1].each do |request| %>
+        <%= link_to request_path(request), class: "card-link" do %>
+          <div class="card">
+            <%= image_tag request.image_url.presence || 'default_image.png', alt: "Image for #{request.title}", class: "card-img" %>
+            <h3><%= request.title %></h3>
+            <div class="progress-bar"></div>
+            <p><%= request.taker.organization_name %> is an organizer</p>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p>No requests available.</p>
     <% end %>
-  <% else %>
-    <p>No requests available.</p>
-  <% end %>
+  </div>
 </div>
+</div>
+
+<style>
+  /* Full-width blue background */
+  .outer-background {
+    background-color: #4A90E2;
+    width: 100vw; /* Full viewport width */
+    padding: 40px 0;
+    display: flex;
+    justify-content: center; /* Center the wrapper inside */
+    align-items: center;
+  }
+  .wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #F7F9FC;
+    border-radius: 10px;
+  }
+
+  .main-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .main-search h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .search-input {
+    padding: 8px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 300px;
+    text-align: center;
+  }
+
+  .search-btn {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .search-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .new-request-row {
+    text-align: center;
+  }
+
+  .new-request-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+
+  .category-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .category-btn {
+    background-color: #ccc;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .category-btn.active {
+    background-color: #555;
+  }
+
+  .content-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .highlight {
+    border: 2px solid #007bff;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #333;
+  }
+
+  .progress-bar {
+    height: 5px;
+    background-color: #007bff;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+
+  .card p {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 5px 0;
+  }
+
+</style>

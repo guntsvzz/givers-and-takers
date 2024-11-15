@@ -1,33 +1,37 @@
-<nav>
+<nav class="navbar">
   <div class="nav-container">
-    <!-- Left-side navigation links -->
-    <div class="nav-links">
-      <%= link_to 'Search', search_path, class: 'btn basic' %>
+    <!-- Left-side navigation links (only for desktop view) -->
+    <div class="nav-left">
+      <%= link_to 'Search', requests_path, class: 'btn basic' %>
       <%= link_to 'Giver', givers_path, class: 'btn basic' %>
       <%= link_to 'Taker', takers_path, class: 'btn basic' %>
     </div>
 
-    <!-- Logo centered in the middle -->
+    <!-- Centered Logo -->
     <div class="logo">
       <%= link_to root_path do %>
         <%= image_tag 'logo.png', alt: 'Givers & Takers Logo' %>
       <% end %>
     </div>
 
-    <!-- Right-side navigation links -->
-    <div class="nav-links">
+    <!-- Right-side navigation links (only for desktop view) -->
+    <div class="nav-right">
       <%= link_to 'About Us', about_us_path, class: 'btn basic' %>
 
       <% if user_signed_in? %>
         <!-- Dropdown menu for logged-in users -->
         <div class="account-menu">
-          <a class="btn basic">Your Account</a>
+          <img 
+          src="<%= current_user.image_url.present? ? current_user.image_url : asset_path('organizer-avatar.png') %>" 
+          alt="<%= "#{current_user.first_name} #{current_user.last_name}" %>" 
+          class="recipient-image">
+      
+          <%= link_to current_user.first_name, account_profile_path(current_user), class: 'btn basic' %>
           
           <!-- Dropdown Menu -->
           <div class="dropdown-menu">
-            <!-- <%= link_to 'Your Give', account_giver_path, class: 'dropdown-item' %> -->
-            <!-- <%= link_to 'Your Take', account_taker_path, class: 'dropdown-item' %> -->
-            <%= link_to 'Settings', account_settings_path, class: 'dropdown-item' %>
+            <%= link_to 'Profile', edit_user_registration_path, class: 'dropdown-item' %>
+            <%= link_to 'Activities', interests_path, class: 'dropdown-item' %>
             <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'dropdown-item', data: { turbo: false } %>
           </div>
         </div>
@@ -36,19 +40,208 @@
         <%= link_to 'Sign In', new_user_session_path, class: 'btn basic' %>
       <% end %>
     </div>
+
+    <!-- Hamburger menu icon for mobile -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 </nav>
 
-<!-- If using public directory -->
+<!-- Sidebar for mobile navigation links -->
+<div class="nav-links" id="nav-links">
+  <%= link_to 'Search', requests_path, class: 'btn basic' %>
+  <%= link_to 'Giver', givers_path, class: 'btn basic' %>
+  <%= link_to 'Taker', takers_path, class: 'btn basic' %>
+  <%= link_to 'About Us', about_us_path, class: 'btn basic' %>
+
+  <% if user_signed_in? %>
+    <!-- Dropdown menu for logged-in users -->
+    <div class="account-menu">
+      <a class="btn basic">Your Account</a>
+      
+      <!-- Dropdown Menu -->
+      <div class="dropdown-menu">
+        <%= link_to 'Settings', account_settings_path, class: 'dropdown-item' %>
+        <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'dropdown-item', data: { turbo: false } %>
+      </div>
+    </div>
+  <% else %>
+    <!-- Sign in link if user is not logged in -->
+    <%= link_to 'Sign In', new_user_session_path, class: 'btn basic' %>
+  <% end %>
+</div>
+
+<!-- Main content area with padding -->
+<div class="content-wrapper">
+  <%= yield %>
+</div>
+
+<!-- Add the toggleMenu JavaScript function for sliding menu -->
 <script>
-  function loadNavbar() {
-    const navbarContainer = document.getElementById('navbar');
-    fetch('/navbar/navbar.html') // direct link to public file
-      .then(response => response.text())
-      .then(data => {
-        navbarContainer.innerHTML = data;
-      })
-      .catch(error => console.error('Error loading navbar:', error));
+  function toggleMenu() {
+    var navLinks = document.getElementById("nav-links");
+    navLinks.classList.toggle("active");
   }
-  window.onload = loadNavbar;
 </script>
+
+<style>
+/* Style for the fixed navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-left {
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.logo {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-right {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.btn.basic {
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn.basic:hover {
+  color: #007bff;
+}
+
+.account-menu {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  border-radius: 4px;
+}
+
+.account-menu:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.content-wrapper {
+  padding-top: 70px;
+}
+
+/* Styles for hamburger menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 4px 0;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .nav-left, .nav-right {
+    display: none; /* Hide left and right nav links */
+  }
+
+  .logo {
+    flex: none;
+    margin: 0 auto;
+  }
+
+  /* Sidebar for mobile navigation links */
+  .nav-links {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: -100%; /* Start off-screen */
+    left: 0;
+    background-color: #fff;
+    flex-direction: column;
+    padding-top: 70px;
+    text-align: center;
+    transition: top 0.3s ease; /* Smooth slide-down effect */
+    z-index: 1001;
+  }
+
+  .nav-links.active {
+    top: 0; /* Slide down the menu */
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* Hide dropdown menu position for mobile */
+  .account-menu:hover .dropdown-menu {
+    position: static;
+  }
+}
+
+.profile-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.recipient-image {
+  width: 50px; /* Adjust as needed */
+  height: 50px;
+  border-radius: 50%; /* Circular image */
+  object-fit: cover; /* Ensure the image maintains aspect ratio */
+}
+
+</style>

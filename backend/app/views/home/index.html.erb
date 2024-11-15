@@ -1,17 +1,70 @@
-<main>
-    <!-- Hero Section -->
-    <section class="hero">
-        <img src="../assets/children.jpg" alt="Happy children">
-        <div class="hero-content">
-            <h1>Transparent Giving, Tangible Impact</h1>
-            <p>Connecting donors and recipients for practical assistance.</p>
-            <%= link_to 'Start Giving', (user_signed_in? ? search_path : new_user_session_path), class: 'btn' %>
-        </div>
-    </section>
+<div class="main-wrapper">
+  <!-- Hero Section -->
+  <div class="hero">
+    <img src="../assets/children.jpg" alt="Happy children">
+    <div class="hero-content">
+      <h1>Transparent Giving, Tangible Impact</h1>
+      <p>Connecting donors and recipients for practical assistance.</p>
+      <a href="<%= user_signed_in? ? requests_path : new_user_session_path %>" class="btn">Start Giving</a>
+    </div>
+  </div>
 
-    <!-- About Section -->
-    <section class="about">
-        <h2>About Our Platform</h2>
-        <p>Giver and Taker is dedicated to fostering a community of transparent giving. Our platform allows donors to provide tangible items directly to those in need, ensuring that every contribution makes a real difference.</p>
-    </section>
-</main>
+  <!-- About Section -->
+  <div class="about">
+    <h2>About Our Platform</h2>
+    <p>Giver and Taker is dedicated to fostering a community of transparent giving. Our platform allows donors to provide tangible items directly to those in need, ensuring that every contribution makes a real difference.</p>
+  </div>
+</div>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.hero img {
+    width: 100%;
+    height: auto;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* About Section */
+.about {
+    max-width: 800px;
+    margin: 40px auto;
+    text-align: center;
+}
+</style>

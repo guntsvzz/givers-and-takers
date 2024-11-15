@@ -4,8 +4,16 @@ class InterestsController < ApplicationController
   # before_action :authorize_user, only: [:create, :new]  # Ensure only certain users can create an interest
 
   # GET /interests or /interests.json
+  # def index
+  #   @interests = Interest.all
+  # end
+  
   def index
-    @interests = Interest.all
+    if current_user.admin?
+      @interests = Interest.all
+    else
+      @interests = Interest.where(user_id: current_user.id)
+    end
   end
 
   # GET /interests/1 or /interests/1.json

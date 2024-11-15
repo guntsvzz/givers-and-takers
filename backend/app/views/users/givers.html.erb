@@ -1,4 +1,4 @@
-<div class="giver-content">
+<div class="outer-background">
   <div class="donation-leaderboard-wrapper">
     <div class="donation-container">
       <% if @givers.any? %>
@@ -24,3 +24,14 @@
     </div>
   </div>
 </div>
+
+<style>
+  .outer-background {
+    background-color: #4A90E2;
+    width: 100vw; /* Full viewport width */
+    padding: 40px 0;
+    display: flex;
+    justify-content: center; /* Center the wrapper inside */
+    align-items: center;
+  }
+</style>
