@@ -15,7 +15,6 @@
     <link rel="apple-touch-icon" href="<%= asset_path 'logo-removebg.png' %>">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_importmap_tags %>
     
     <style>
@@ -25,30 +24,37 @@
         flex-direction: column;
         min-height: 100vh;
         margin: 0;
-        background-color: white; /* Set a white background for the entire page */
+        background-color: white;
       }
 
       /* Navbar Styling */
       .navbar {
         width: 100%;
-        /* Additional styling as needed */
       }
 
       /* Content Styling */
-    .content {
-      width: 100%;
-      flex: 1;
-      background-color: white;
-      margin: 0;
-      padding: 0;
-    }
-
+      .content {
+        width: 100%;
+        flex: 1;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+      }
 
       /* Footer Styling */
       .footer {
         width: 100%;
         margin: 0;
-        padding: 0;
+        padding: 20px 0;
+        background-color: #f8f9fa;
+        text-align: center;
+      }
+
+      /* Flash Message Styling */
+      .flash-alert {
+        color: red;
+        font-weight: bold;
+        margin: 10px 20px;
       }
     </style>
   </head>
@@ -59,6 +65,11 @@
     </div>
 
     <div class="content">
+      <% if flash[:alert] %>
+        <div class="flash-alert">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
 

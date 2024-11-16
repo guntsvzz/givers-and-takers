@@ -82,6 +82,16 @@ class InterestsController < ApplicationController
     end
   end
 
+  def update_status
+    @interest = Interest.find(params[:id])
+  
+    if @interest.update(status: params[:status])
+      redirect_to request.referer, notice: "Status updated successfully."
+    else
+      redirect_to request.referer, alert: "Failed to update status."
+    end
+  end
+
   private
   def interest_params
     params.require(:interest).permit(:request_id, :quantity, :delivery_method)

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'account/taker', to: 'account#taker', as: 'account_taker'
   get 'account/settings', to: 'account#settings', as: 'account_settings'
   get 'account/profile', to: 'account#profile', as: 'account_profile'
-
+  get 'profile/:id', to: 'users#show', as: :profile
   get "home/index"
   # get 'navbar', to: 'navbar#show' # example route if there's a 'show' action in the NavbarController
 
@@ -13,11 +13,28 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
   # resources :interests, only: [:new, :create]
-  resources :interests
+  # resources :interests
   resources :requests do
     resources :donations, only: [:new, :create, :show]
   end
-  
+  resources :verifications, only: [:index]  # Limit routes to index only
+  # Custom route for updating taker status
+  post 'update_status/:id', to: 'verifications#update_status', as: 'update_taker_status'
+  resources :notifications do
+    member do
+      get :view_interest
+    end
+  end
+  resources :users, only: [:show] do 
+    get 'more_givers', on: :collection
+  end
+
+  resources :interests do
+    member do
+      patch :update_status
+    end
+  end  
+
   # get "donations/show"
   # get "donations/create"
   # resources :students 
@@ -43,7 +60,6 @@ Rails.application.routes.draw do
   # Define other routes for givers and takers if they aren't already defined
   get 'givers', to: 'users#givers', as: 'givers'
   get 'takers', to: 'users#takers', as: 'takers'
-  get 'your_account', to: 'users#your_account', as: 'your_account'
   
   # Use different route names to avoid conflicts
   get 'interests_list', to: 'interests#index', as: 'interests_list'

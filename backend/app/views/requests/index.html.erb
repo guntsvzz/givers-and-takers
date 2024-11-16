@@ -1,52 +1,61 @@
 <div class="outer-background">
-<div class="wrapper">
-  <!-- Main Search Section -->
-  <div class="main-search">
-    <h1>Find Recipients and Nonprofits</h1>
+  <div class="wrapper">
+    <!-- Main Search Section -->
+    <div class="main-search">
+      <h1>Find Recipients and Nonprofits</h1>
 
-    <!-- Search Bar and Button Row -->
-    <div class="search-row">
-      <%= form_with url: search_path, method: :get, local: true do |form| %>
-        <%= form.text_field :query, placeholder: "Search", class: "search-input" %>
-        <%= form.submit "Search", class: "search-btn" %>
-      <% end %>
+      <!-- Search Bar and Button Row -->
+      <div class="search-row">
+        <%= form_with url: requests_path, method: :get, local: true do |form| %>
+          <%= form.text_field :query, placeholder: "Search", class: "search-input", value: params[:query] %>
+          <%= form.submit "Search", class: "search-btn" %>
+        <% end %>
+      </div>
+
+      <!-- New Request Link Row -->
+      <div class="new-request-row">
+        <%= link_to "New request", new_request_path, class: "new-request-link" %>
+      </div>
     </div>
 
-    <!-- New Request Link Row -->
-    <div class="new-request-row">
-      <%= link_to "New request", new_request_path, class: "new-request-link" %>
-    </div>
-  </div>
-
-  <!-- Content Cards Section -->
-  <div class="content-cards">
-    <!-- Highlighted first card -->
-    <% if @requests.present? %>
-      <%= link_to request_path(@requests.first), class: "card-link" do %>
-        <div class="card highlight">
-          <%= image_tag @requests.first.image_url.presence || 'default_image.png', alt: "Image for #{@requests.first.title}", class: "card-img" %>
-          <h3><%= @requests.first.title %></h3>
-          <div class="progress-bar"></div>
-          <p><%= @requests.first.taker.organization_name %> is an organizer</p>
-        </div>
-      <% end %>
-
-      <!-- Regular cards for the rest -->
-      <% @requests[1..-1].each do |request| %>
-        <%= link_to request_path(request), class: "card-link" do %>
-          <div class="card">
-            <%= image_tag request.image_url.presence || 'default_image.png', alt: "Image for #{request.title}", class: "card-img" %>
-            <h3><%= request.title %></h3>
+    <!-- Content Cards Section -->
+    <div class="content-cards">
+      <% if @requests.present? %>
+        <!-- Highlighted card for the first request -->
+        <%= link_to request_path(@requests.first), class: "card-link" do %>
+          <div class="card highlight">        
+            <%= image_tag(
+              @requests.first.image.attached? ? url_for(@requests.first.image) : asset_path('default_image.png'),
+              alt: "Image for #{@requests.first.title}",
+              class: "card-img"
+            ) %>
+            <h3><%= @requests.first.title %></h3>
             <div class="progress-bar"></div>
-            <p><%= request.taker.organization_name %> is an organizer</p>
+            <p><%= @requests.first.taker.organization_name %> is an organizer</p>
           </div>
         <% end %>
+    
+        <!-- Regular cards for the rest -->
+        <% @requests[1..-1].each do |request| %>
+          <%= link_to request_path(request), class: "card-link" do %>
+            <div class="card">
+              <%= image_tag(
+                request.image.attached? ? url_for(request.image) : asset_path('default_image.png'),
+                alt: "Image for #{request.title}",
+                class: "card-img"
+              ) %>
+              <h3><%= request.title %></h3>
+              <div class="progress-bar"></div>
+              <p><%= request.taker.organization_name %> is an organizer</p>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p>No requests available.</p>
       <% end %>
-    <% else %>
-      <p>No requests available.</p>
-    <% end %>
+    </div>
+  
   </div>
-</div>
 </div>
 
 <style>
@@ -195,3 +204,4 @@
   }
 
 </style>
+

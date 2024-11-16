@@ -1,69 +1,314 @@
-<div style="background-color: #f7f9fc; padding: 20px; border-radius: 20px; max-width: 800px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; gap: 20px;">
-  <!-- Left Side: Picture, Title, Description, Back Link -->
-  <div style="flex: 1;">
-    <%= image_tag @request.image_url.presence || 'default_image.png', alt: "Image for #{@request.title}", size: "150x150", style: "border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" %>
-    <h2 style="font-size: 24px; font-weight: bold; color: #2b3a42; margin-bottom: 10px;"><%= @request.title %></h2>
-    <p><%= @request.taker.organization_name %> is an organizer</p>
-    <p style="font-size: 18px; color: #555; margin-bottom: 20px;"><%= @request.description %></p>
-    <%= link_to "Back to requests", requests_path, style: "display: block; font-size: 16px; color: #333; text-decoration: underline;" %>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Details</title>
+  <style>
+    /* Outer Background */
+    .outer-background {
+      background-color: #f0f8ff;
+      width: 100%;
+      padding: 40px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  <!-- Right Side: Set Raised, Set Goal, Donate Button, Donors List -->
-  <div style="flex: 1;">
-    <div style="margin-bottom: 20px;">
-      <p style="font-weight: bold; color: #2b3a42; font-size: 18px; margin: 0;"><%= @request.interests.where(status: 1).sum(:quantity) %> Set raised</p>
-      <p style="color: #777; font-size: 16px; margin: 0;"><%= @request.quantity %> Set Goal</p>
-      <div style="background-color: #e0e0e0; border-radius: 10px; height: 20px; width: 100%; position: relative; margin-top: 10px;">
-        <div style="background-color: #4caf50; height: 100%; width: <%= [(@request.interests.where(status: 1).sum(:quantity).to_f / @request.quantity * 100).round(2), 100].min %>%; border-radius: 10px;"></div>
-        <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #333; font-weight: bold;">
-          <%= [(@request.interests.where(status: 1).sum(:quantity).to_f / @request.quantity * 100).round(2), 100].min %>%
-        </span>
+    /* Container Styles */
+    .request-container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 1200px;
+      margin: 20px auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* Left Side Styles */
+    .request-left {
+      flex: 2;
+      text-align: left;
+    }
+
+    .request-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b3a42;
+      margin-bottom: 15px;
+    }
+
+    .request-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .request-description {
+      font-size: 16px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .back-link, .check-button {
+      display: inline-block;
+      background-color: #d3d3d3;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .back-link:hover, .check-button:hover {
+      background-color: #a9a9a9;
+    }
+
+    /* Right Side Styles */
+    .request-right {
+      flex: 1.5;
+      background-color: #f7f9fc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .raised {
+      font-weight: bold;
+      color: #333;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .goal {
+      color: #777;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      height: 20px;
+      width: 100%;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .progress-fill {
+      background-color: #007bff;
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    .progress-text {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .donate-button {
+      background-color: #333;
+      color: white;
+      width: 120px;
+      height: 50px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .donate-button:hover {
+      background-color: #000;
+    }
+
+    .donate-button.disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .donors-header {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .donors-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .donor-item {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .donor-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      background: url('<%= asset_path("donation-icon.png") %>') no-repeat center center;
+      background-size: contain;
+    }
+
+    .toggle-button {
+      display: inline-block;
+      background-color: #d3d3d3;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      margin: 15px auto;
+      cursor: pointer;
+    }
+
+    .toggle-button:hover {
+      background-color: #a9a9a9;
+    }
+
+    .profile-link {
+      color: #4A90E2;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .profile-link:hover {
+      text-decoration: underline;
+    }
+
+    .announcement {
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 10px;
+      text-align: left;
+    }
+    
+    .announcement.verified {
+      color: #28a745; /* Green font for verified */
+    }
+    
+    .announcement.non-verified {
+      color: #dc3545; /* Red font for non-verified */
+    }
+    
+    .organization {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    
+    .status-icon {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    
+    
+  </style>
+</head>
+<body>
+  <div class="outer-background">
+    <div class="request-container">
+      <!-- Left Side -->
+      <div class="request-left">
+        <h2 class="request-title"><%= @request.title %></h2>
+        <%= image_tag(
+              @request.image.attached? ? url_for(@request.image) : asset_path('default_image.png'), 
+              alt: "Image for #{@request.title}", 
+              class: "request-image") %>
+        <p class="organization">
+          <img src="<%= get_status_image(@request.taker.status) %>" alt="<%= @request.taker.status %> status" class="status-icon">
+          Requested by: <%= @request.taker.first_name %> <%= @request.taker.last_name %>
+          <br>
+          Organization: <%= @request.taker.organization_name %> is an organizer
+        </p>
+
+        <% if @request.taker.status == User::STATUSES[:verified] %>
+          <p class="announcement verified">
+            Attention: This user has been verified by the admin.
+          </p>
+        <% elsif @request.taker.status == User::STATUSES[:non_verified] %>
+          <p class="announcement non-verified">
+            Attention: This user has been invalidated by the admin.
+          </p>
+        <% elsif @request.taker.status == User::STATUSES[:default] %>
+          <p class="announcement non-verified">
+            Attention: This user has not been verified by the admin.
+          </p>
+        <% end %>
+
+
+        <p class="request-description">Description: <%= @request.description %></p>
+        <% if current_user.id == @request.taker_id %>
+          <a href="<%= view_interest_notification_path(@request.id) %>" class="check-button">Check Interests</a>
+        <% end %>
+        <a href="<%= requests_path %>" class="back-link">Back to requests</a>
+      </div>
+
+      <!-- Right Side -->
+      <div class="request-right">
+        <p class="raised"><%= @request.interests.where(status: 1).sum(:quantity) %> Set raised</p>
+        <p class="goal"><%= @request.quantity %> Set Goal</p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: <%= [(@request.interests.where(status: 1).sum(:quantity).to_f / @request.quantity * 100).round(0), 100].min %>%;"></div>
+          <span class="progress-text">
+            <%= [(@request.interests.where(status: 1).sum(:quantity).to_f / @request.quantity * 100).round(0), 100].min %>%
+          </span>
+        </div>
+        <% if @request.interests.where(status: 1).sum(:quantity) >= @request.quantity %>
+          <div class="donate-button disabled">Goal Achieved</div>
+          <p class="announcement">This request has reached its goal!</p>
+        <% else %>
+          <a href="<%= new_request_donation_path(@request) %>" class="donate-button">Donate Now</a>
+        <% end %>
+        <h3 class="donors-header"><%= pluralize(@request.interests.where(status: 1).count, "person") %> just donated</h3>
+
+        <% donors = params[:show_all] == 'true' ? @request.interests.where(status: 1).order(quantity: :desc) : @request.interests.where(status: 1).order(quantity: :desc).limit(3) %>
+        <ul class="donors-list">
+          <% donors.each do |interest| %>
+            <li class="donor-item">
+              <span class="donor-icon"></span>
+              <%= link_to "#{interest.user.first_name} #{interest.user.last_name}", profile_path(interest.user.id), class: 'profile-link' %> - <%= interest.quantity %> Set
+            </li>
+          <% end %>
+        </ul>
+
+        <% if @request.interests.where(status: 1).count > 3 %>
+          <a href="?show_all=<%= params[:show_all] == 'true' ? 'false' : 'true' %>" class="toggle-button">
+            <%= params[:show_all] == 'true' ? 'Show Less' : 'See All' %>
+          </a>
+        <% end %>
       </div>
     </div>
-
-    <%= link_to "Donate Now", new_request_donation_path(@request), class: "btn btn-primary", style: "background-color: #333; color: white; width: 120px; height: 50px; border-radius: 25px; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); margin-bottom: 20px;" %>
-
-    <h3 style="font-size: 20px; font-weight: bold; color: #2b3a42; margin-bottom: 10px;"><%= pluralize(@request.interests.where(status: 1).count, "person") %> just donated</h3>
-    
-    <ul id="donors-list" style="list-style: none; padding: 0; margin: 0; font-size: 16px; color: #555;">
-      <% @request.interests.where(status: 1).limit(3).each do |interest| %>
-        <li style="display: flex; align-items: center; margin-bottom: 8px;">
-          <span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; background: url('icon.png') no-repeat center center; background-size: contain;"></span>
-          <%= "#{interest.user.first_name} #{interest.user.last_name}" %> - <%= interest.quantity %> Set
-        </li>
-      <% end %>
-    </ul>
-
-    <% if @request.interests.where(status: 1).count > 3 %>
-      <button onclick="toggleDonorsList()" id="toggle-button" style="font-size: 16px; color: #007bff; background: none; border: none; cursor: pointer; text-decoration: underline;">See All</button>
-    <% end %>
-
-    <!-- Full list (hidden by default) -->
-    <ul id="all-donors-list" style="display: none; list-style: none; padding: 0; margin: 0; font-size: 16px; color: #555;">
-      <% @request.interests.where(status: 1).each do |interest| %>
-        <li style="display: flex; align-items: center; margin-bottom: 8px;">
-          <span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; background: url('icon.png') no-repeat center center; background-size: contain;"></span>
-          <%= "#{interest.user.first_name} #{interest.user.last_name}" %> - <%= interest.quantity %> Set
-        </li>
-      <% end %>
-    </ul>
   </div>
-</div>
-
-<script>
-  function toggleDonorsList() {
-    const allDonorsList = document.getElementById('all-donors-list');
-    const donorsList = document.getElementById('donors-list');
-    const toggleButton = document.getElementById('toggle-button');
-    
-    if (allDonorsList.style.display === 'none') {
-      allDonorsList.style.display = 'block';
-      donorsList.style.display = 'none';
-      toggleButton.textContent = 'Show Less';
-    } else {
-      allDonorsList.style.display = 'none';
-      donorsList.style.display = 'block';
-      toggleButton.textContent = 'See All';
-    }
-  }
-</script>
+</body>
+</html>

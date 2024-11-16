@@ -1,40 +1,42 @@
-<form action="/interests" method="post">
-  <!-- CSRF Token for Rails -->
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<div class="outer-background">
+  <form action="/interests" method="post" style="background-color: #fff; padding: 20px; border-radius: 8px; width: 100%; max-width: 500px;">
+    <!-- CSRF Token for Rails -->
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-  <!-- Select Request Field -->
-  <div style="margin-bottom: 15px;">
-    <label for="interest_request_id" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Request</label>
-    <select name="interest[request_id]" id="interest_request_id" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <option value="">Select a request</option>
-      <% Request.all.each do |request| %>
-        <option value="<%= request.id %>" <%= 'selected' if request.id == @interest.request_id %>><%= request.item_name %></option>
-      <% end %>
-    </select>
-  </div>
+    <!-- Select Request Field -->
+    <div style="margin-bottom: 15px;">
+      <label for="interest_request_id" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Request</label>
+      <select name="interest[request_id]" id="interest_request_id" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">Select a request</option>
+        <% Request.all.each do |request| %>
+          <option value="<%= request.id %>" <%= 'selected' if request.id == @interest.request_id %>><%= request.item_name %></option>
+        <% end %>
+      </select>
+    </div>
 
-  <!-- Quantity Field -->
-  <div style="margin-bottom: 15px;">
-    <label for="interest_quantity" style="display: block; font-weight: bold; margin-bottom: 5px;">Quantity</label>
-    <input type="number" name="interest[quantity]" id="interest_quantity" min="1" max="0" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-  </div>
+    <!-- Quantity Field -->
+    <div style="margin-bottom: 15px;">
+      <label for="interest_quantity" style="display: block; font-weight: bold; margin-bottom: 5px;">Quantity</label>
+      <input type="number" name="interest[quantity]" id="interest_quantity" min="1" max="0" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    </div>
 
-  <!-- Delivery Method Field -->
-  <div style="margin-bottom: 15px;">
-    <label for="interest_delivery_method" style="display: block; font-weight: bold; margin-bottom: 5px;">Delivery Method</label>
-    <select name="interest[delivery_method]" id="interest_delivery_method" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <option value="">Choose Delivery Method</option>
-      <% Interest.delivery_methods.keys.each do |method| %>
-        <option value="<%= method %>"><%= method.humanize %></option>
-      <% end %>
-    </select>
-  </div>
+    <!-- Delivery Method Field -->
+    <div style="margin-bottom: 15px;">
+      <label for="interest_delivery_method" style="display: block; font-weight: bold; margin-bottom: 5px;">Delivery Method</label>
+      <select name="interest[delivery_method]" id="interest_delivery_method" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">Choose Delivery Method</option>
+        <% Interest.delivery_methods.keys.each do |method| %>
+          <option value="<%= method %>"><%= method.humanize %></option>
+        <% end %>
+      </select>
+    </div>
 
-  <!-- Submit Button -->
-  <div style="margin-top: 20px;">
-    <button type="submit" style="background-color: #4caf50; color: white; padding: 10px 20px; border-radius: 5px; border: none; font-weight: bold;">Create Interest</button>
-  </div>
-</form>
+    <!-- Submit Button -->
+    <div style="margin-top: 20px;">
+      <button type="submit" style="background-color: #4caf50; color: white; padding: 10px 20px; border-radius: 5px; border: none; font-weight: bold;">Create Interest</button>
+    </div>
+  </form>
+</div>
 
 <!-- JavaScript for Handling Quantity Max Based on Request Selection -->
 <script>
@@ -65,3 +67,14 @@
     }
   });
 </script>
+
+<style>
+.outer-background {
+  background-color: #4A90E2;
+  width: 100%;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

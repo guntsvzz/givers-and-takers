@@ -13,28 +13,65 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap";
 
- .page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
+
+* {
+  font-family: 'Helvetica', Arial, sans-serif;
+}
+
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-container > * {
+  flex-shrink: 0;
+}
+
+nav {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+main {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+footer {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
   
-  .page-container > * {
-    flex-shrink: 0;
+
+/* Default styles (desktop-first) */
+body {
+  font-size: 16px;
+}
+
+/* Tablet (e.g., iPads) */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
   }
-  
-  nav {
-    flex-grow: 0;
-    flex-shrink: 0;
+}
+
+/* Mobile (e.g., iPhones) */
+@media (max-width: 576px) {
+  body {
+    font-size: 12px;
   }
-  
-  main {
-    flex-grow: 1;
-    flex-shrink: 1;
-  }
-  
-  footer {
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
+}
+
+.container {
+  width: 90%; /* Adjusts width dynamically */
+  max-width: 1200px; /* Limits to a maximum width */
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}

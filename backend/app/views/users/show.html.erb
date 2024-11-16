@@ -1,0 +1,41 @@
+<h1>Profile</h1>
+<div class="profile-container">
+  <div class="profile-details">
+    <p><strong>Name:</strong> <%= "#{@user.first_name} #{@user.last_name}" %></p>
+    <p><strong>Email:</strong> <%= @user.email %></p>
+    <p><strong>Role:</strong> <%= @user.role.humanize %></p>
+    <p><strong>Address:</strong> <%= @user.address.presence || "No address provided" %></p>
+    <p><strong>Organization Type:</strong> <%= @user.organization_type.presence || "Not specified" %></p>
+    <p><strong>Organization Name:</strong> <%= @user.organization_name.presence || "Not specified" %></p>
+    <p><strong>Phone Number:</strong> <%= @user.phone_number.presence || "No phone number provided" %></p>
+  </div>
+
+  <% if @user == current_user %> <!-- Check if the profile belongs to current_user -->
+    <div class="edit-button">
+      <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
+
+
+
+
+<style>
+/* app/assets/stylesheets/profile.css */
+.profile-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.profile-details p {
+  margin: 10px 0;
+}
+
+.edit-button {
+  margin-top: 20px;
+}
+</style>

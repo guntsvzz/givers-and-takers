@@ -4,7 +4,7 @@
       <div class="logo">
         <%= image_tag 'logo.png', alt: 'Givers & Takers Logo', width: '100' %>
       </div>
-      
+
       <!-- Sign In Form -->
       <div id="signin-form">
         <h1>Sign in</h1>
@@ -13,27 +13,23 @@
           <div class="form-group">
             <%= f.label :email, 'Email' %>
             <%= f.email_field :email, autofocus: true, placeholder: 'Please enter a valid email address.', required: true, class: "form-control" %>
-            <% if resource.errors[:email].any? %>
-              <div class="error-message">
-                Please enter a valid email address.
-              </div>
-            <% end %>
           </div>
           
           <div class="form-group">
             <%= f.label :password, 'Password' %>
             <%= f.password_field :password, placeholder: 'Password is required.', required: true, class: "form-control" %>
-            <% if resource.errors[:password].any? %>
+            <% if flash[:alert] %>
               <div class="error-message">
-                Password is required.
+                <%= flash[:alert] %>
               </div>
             <% end %>
           </div>
           
           <!-- Centering the Sign In button -->
           <div class="text-center">
-            <%= f.submit "Sign In", class: "btn btn-primary" %>
+            <%= f.submit "Sign In", class: "custom-sign-in-button" %>
           </div>
+        
         <% end %>
 
         <p class="text-center">
@@ -46,3 +42,133 @@
     </div>
   </div>
 <% end %>
+
+<styles>
+.auth-container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw; /* Ensure it takes full width */
+  background-color: #4A90E2;
+}
+
+.auth-container {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 350px; /* Set a max-width for consistent alignment */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for styling */
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #2C3E50;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Ensure form elements are aligned properly */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Label and Input Styling */
+label {
+  font-size: 0.9rem;
+  color: #2C3E50;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #BDC3C7;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Button Styling */
+button {
+  background-color: #2C3E50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%; /* Full width for the button */
+}
+
+/* Link Styling */
+a {
+  color: #2C3E50;
+  text-decoration: none;
+}
+
+/* Centered Text */
+.text-center {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #d9534f; /* Red color for error message */
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+.error-message {
+  color: #d9534f; /* Red color for error message */
+  font-size: 0.9rem;
+  margin-top: 5px; /* Spacing from input field */
+}
+
+
+.error-messages ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.error-messages li {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.custom-sign-in-button {
+  background-color: #333; /* Black background */
+  color: white; /* White text */
+  width: 120px; /* Button width */
+  height: 50px; /* Button height */
+  border-radius: 25px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  margin: 0 auto 20px; /* Center horizontally and add spacing below */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effect */
+.custom-sign-in-button:hover {
+  background-color: #444; /* Slightly lighter black on hover */
+}
+
+
+</styles>

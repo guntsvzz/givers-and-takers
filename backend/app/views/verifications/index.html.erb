@@ -1,41 +1,52 @@
 <div class="outer-background">
   <div class="giver-leaderboard-wrapper">
     <div class="giver-container">
-      <% if @givers.any? %>
+    <h2>Verification Page</h2>
+      <% if @takers.any? %>
         <div class="leaderboard">
-          <h2>Top Givers</h2>
           <ul class="donators-list">
-            <% @givers.each_with_index do |giver, i| %>
+            <% @takers.each_with_index do |taker, i| %>
               <li>
-                <span class="rank"><%= i + 1 + (@givers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
+                <span class="rank"><%= i + 1 + (@takers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
                 <img 
-                  src="<%= giver.image_url.present? ? giver.image_url : asset_path('organizer-avatar.png') %>" 
-                  alt="<%= giver.first_name %>" 
+                  src="<%= taker.image_url.present? ? taker.image_url : asset_path('organizer-avatar.png') %>" 
+                  alt="<%= taker.first_name %>" 
                   class="donator-image">
-                <span class="name">Name: <%= link_to "#{giver.first_name} #{giver.last_name}", profile_path(giver.id), class: 'profile-link' %></span>
+                <span class="name"><%= "#{taker.first_name} #{taker.last_name}" %></span>
+                
+                <span class="actions">
+                  <!-- Verified Button -->
+                  <%= button_to update_taker_status_path(taker, status: 'verified'), method: :post, class: 'status-btn verified' do %>
+                    Verified
+                  <% end %>
 
-                <span class="donates"><%= giver.total_interested_quantity || 0 %></span>
+                  <!-- Non-Verified Button -->
+                  <%= button_to update_taker_status_path(taker, status: 'non_verified'), method: :post, class: 'status-btn non-verified' do %>
+                    Non-Verified
+                  <% end %>
+                </span>
               </li>
             <% end %>
           </ul>
           
           <!-- Pagination controls: Next and Previous buttons -->
           <div class="pagination">
-            <% if @givers.prev_page %>
-              <%= link_to 'Previous', givers_path(page: @givers.prev_page), class: 'btn-previous' %>
+            <% if @takers.prev_page %>
+              <%= link_to 'Previous', verifications_path(page: @takers.prev_page), class: 'btn-previous' %>
             <% end %>
             
-            <% if @givers.next_page %>
-              <%= link_to 'Next', givers_path(page: @givers.next_page), class: 'btn-next' %>
+            <% if @takers.next_page %>
+              <%= link_to 'Next', verifications_path(page: @takers.next_page), class: 'btn-next' %>
             <% end %>
           </div>
         </div>
       <% else %>
-        <p>No givers found.</p>
+        <p>No takers found.</p>
       <% end %>
     </div>
   </div>
 </div>
+
 <style>
   .outer-background {
     background-color: #4A90E2;
@@ -50,10 +61,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 0; /* Add padding to create space around content */
+    padding: 40px 0;
     width: 100%;
   }
-  
+
   .giver-container {
     background-color: white;
     border-radius: 20px;
@@ -63,13 +74,13 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: auto;
   }
-  
+
   h1, h2 {
     color: #2C3E50;
     text-align: center;
     margin-bottom: 20px;
   }
-  
+
   .leaderboard .donators-list {
     list-style: none;
     padding: 0;
@@ -109,15 +120,43 @@
     font-size: 16px;
   }
 
-  .donates {
+  .actions {
     margin-left: auto;
-    background-color: #f0f0f0;
-    padding: 5px 10px;
-    border-radius: 15px;
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Style for status buttons (Verified / Non-Verified) */
+  .status-btn {
+    background: none;
+    border: 2px solid;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
     font-weight: bold;
   }
 
-  /* Pagination Buttons */
+  .status-btn.verified {
+    border-color: green;
+    color: green;
+  }
+
+  .status-btn.verified:hover {
+    background-color: green;
+    color: white;
+  }
+
+  .status-btn.non-verified {
+    border-color: red;
+    color: red;
+  }
+
+  .status-btn.non-verified:hover {
+    background-color: red;
+    color: white;
+  }
+
+  /* Pagination */
   .pagination {
     display: flex;
     justify-content: center;
@@ -135,18 +174,8 @@
     font-weight: bold;
     margin: 0 10px;
   }
-  
+
   .btn-previous:hover, .btn-next:hover {
     background-color: #357ABD;
-  }
-
-  .profile-link {
-    color: #4A90E2;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  .profile-link:hover {
-    text-decoration: underline;
   }
 </style>

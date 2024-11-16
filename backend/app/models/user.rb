@@ -35,11 +35,15 @@ class User < ApplicationRecord
     'assets/organizer-avatar.png'
   end
 
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+  
   # Define possible statuses
   STATUSES = {
     default: 'default',
     verified: 'verified',
-    non_verified: 'non-verified'
+    non_verified: 'non_verified'
   }.freeze
 
   def set_defaults

@@ -3,10 +3,23 @@ class RequestsController < ApplicationController
   before_action :authenticate_user!  # Ensure user is signed in
   # before_action :authorize_user, only: [:create, :new]  # Ensure only certain users can create an interest
   
-  # GET /requests or /requests.json
   def index
-    @requests = Request.all
+    # Get the search query, if provided
+    query = params[:query].to_s.strip.downcase
+
+    # If there's a query, perform a case-insensitive search for requests
+    if query.present?
+      # Perform case-insensitive search where the title starts with the query term
+      @requests = Request.where('LOWER(title) LIKE ?', "#{query}%")
+    else
+      @requests = Request.all
+    end
   end
+
+  # GET /requests or /requests.json
+  # def index
+  #   @requests = Request.all
+  # end
 
   # GET /requests/1 or /requests/1.json
   def show
@@ -29,9 +42,11 @@ class RequestsController < ApplicationController
   def create
     @request = Request.new(request_params)
     @request.taker_id = current_user.id #if current_user.taker?
-    
+    Rails.logger.debug "Image attached?: #{params[:request][:image].present?}"
+
     respond_to do |format|
       if @request.save
+        Rails.logger.debug "Saved with image: #{@request.image.attached?}"
         format.html { redirect_to request_url(@request), notice: "Request was successfully created." }
         format.json { render :show, status: :created, location: @request }
       else
@@ -72,7 +87,9 @@ class RequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def request_params
-      params.require(:request).permit(:request_id, :taker_id, :image, :description, :item_name, :quantity, :status, :start_time, :end_time, :title)
+      params.require(:request).permit(
+        :title, :description, :item_name, :quantity, :start_time, :end_time, :status, :image
+      )
     end
 
 

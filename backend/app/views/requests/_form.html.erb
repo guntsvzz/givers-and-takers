@@ -1,4 +1,4 @@
-<%# app/views/requests/_form.html.erb %>
+<!-- app/views/requests/_form.html.erb -->
 
 <style>
   .form-container {
@@ -137,7 +137,7 @@
 </style>
 
 <div class="form-container">
-  <%= form_with(model: request, local: true) do |form| %>
+  <%= form_with(model: request, local: true, multipart: true) do |form| %>
     <% if request.errors.any? %>
       <div class="error-box">
         <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
@@ -155,17 +155,14 @@
           <%= form.label :title %>
           <%= form.text_field :title %>
         </div>
-
         <div class="field">
           <%= form.label :description %>
           <%= form.text_area :description %>
         </div>
-
         <div class="field">
           <%= form.label :item_name %>
           <%= form.text_field :item_name %>
         </div>
-
         <div class="field">
           <%= form.label :quantity %>
           <%= form.number_field :quantity %>
@@ -177,27 +174,16 @@
           <%= form.label :start_time %>
           <%= form.datetime_local_field :start_time %>
         </div>
-
         <div class="field">
           <%= form.label :end_time %>
           <%= form.datetime_local_field :end_time %>
         </div>
-
         <div class="field">
           <%= form.label :image %>
           <div class="image-upload-container">
-            <img id="image-preview" class="image-preview" />
-            <%= form.file_field :image, 
-                id: "image-upload",
-                style: "display: none;",
-                accept: 'image/*' %>
-            <button type="button" class="upload-button" onclick="document.getElementById('image-upload').click()">
-              Choose Image
-            </button>
-            <p style="font-size: 12px; color: #666; margin-top: 5px;">PNG, JPG, GIF up to 5MB</p>
+            <%= form.file_field :image, id: "image-upload", accept: "image/*" %>
           </div>
         </div>
-
         <% if current_user.admin? %>
           <div class="field">
             <%= form.label :status %>

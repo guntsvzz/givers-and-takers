@@ -20,7 +20,7 @@
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "signup-form", id: "signup_form" }) do |f| %>
         <h2>Let's become a <%= params[:role] == 'giver' ? 'Giver' : 'Taker' %></h2>
 
-        <div style="background: yellow; padding: 10px;">
+        <div padding: 10px;">
           Current role param: <%= params[:role].inspect %>
         </div>
 
@@ -29,12 +29,12 @@
         <div class="form-row">
           <div class="form-group">
             <%= f.label :first_name, "First Name" %>
-            <%= f.text_field :first_name, required: true, placeholder: "Required" %>
+            <%= f.text_field :first_name, required: true, placeholder: "Enter your first name (max 20 characters)" %>
           </div>
 
           <div class="form-group">
             <%= f.label :last_name, "Last Name" %>
-            <%= f.text_field :last_name, required: true, placeholder: "Required" %>
+            <%= f.text_field :last_name, required: true, placeholder: "Enter your last name (max 20 characters)" %>
           </div>
         </div>
 
@@ -46,10 +46,7 @@
 
           <div class="form-group">
             <%= f.label :password, "Password" %>
-            <% if @minimum_password_length %>
-              <em>(<%= @minimum_password_length %> characters minimum)</em>
-            <% end %>
-            <%= f.password_field :password, required: true, placeholder: "Required", autocomplete: "new-password" %>
+            <%= f.password_field :password, required: true, placeholder: "Enter a password (min 6 characters)", autocomplete: "new-password" %>
           </div>
         </div>
 
@@ -61,14 +58,14 @@
 
           <div class="form-group">
             <%= f.label :address, "Address" %>
-            <%= f.text_field :address, required: true, placeholder: "Required" %>
+            <%= f.text_field :address, required: true, placeholder: "Enter your address (max 100 characters)" %>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <%= f.label :organization_name, "Organization Name" %>
-            <%= f.text_field :organization_name, required: true, placeholder: "Required" %>
+            <%= f.text_field :organization_name, required: true, placeholder: "Enter your organization name (max 20 characters)" %>
           </div>
 
           <div class="form-group">
@@ -245,5 +242,3 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #34495E;
   }
 </style>
-
-<%= render "devise/shared/links" %>

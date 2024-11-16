@@ -71,6 +71,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
 
+  def update_resource(resource, params)
+    if params[:password].blank? && params[:password_confirmation].blank?
+      resource.update_without_password(params.except(:current_password))
+    else
+      resource.update_with_password(params)
+    end
+  end
+
+  def after_update_path_for(resource)
+    profile_path(resource) # Redirects to the profile page
+  end
+  
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [

@@ -1,0 +1,222 @@
+<div class="wrapper">
+  <h1 class="title"> Title : <%= @request.title %></h1> <!-- Dynamic Request Title -->
+
+  <a href="<%= notifications_path %>" class="back-link">Back to Your requests</a>
+  <% if @interests.empty? %>
+    <p class="no-interests">There are no interests for this request yet.</p>
+  <% else %>
+    <div class="interests-list">
+      <% @interests.each do |interest| %>
+        <div class="interest-item">
+          
+          <!-- Column 1: User Image -->
+          <div class="interest-image">
+            <img 
+              src="<%= interest.user.image_url.present? ? interest.user.image_url : asset_path('organizer-avatar.png') %>" 
+              alt="<%= interest.user.first_name %>" 
+              class="interest-img">
+        
+          </div>
+          
+          <!-- Column 2: User Information -->
+          <div class="interest-info">
+            <h2><%= interest.user.first_name %> <%= interest.user.last_name %></h2>
+            <p>Amount Offered: <%= interest.quantity %></p>
+            <p>Delivery Method: <%= interest.delivery_method %></p>
+          </div>
+          
+          <!-- Column 3: View Details and Status -->
+          <div class="interest-actions">
+            <%= link_to "view details", interest_path(interest), class: "action-button details-button" %>
+            
+            <!-- Status Icon -->
+            <% if interest.status == "1" %>
+              <span class="status-icon delivered">Delivered</span>
+            <% else %>
+              <span class="status-icon waiting">Waiting for Shipment</span>
+              <%= form_with url: update_status_interest_path(interest), method: :patch, local: true do |form| %>
+                <%= form.hidden_field :status, value: 1 %>
+                <%= form.submit "Confirm", class: "action-button confirm-button" %>
+              <% end %>
+            <% end %>
+          </div>
+          
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>
+
+
+
+<style>
+.wrapper {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Ensure buttons align center */
+}
+
+.title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.no-interests {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.interests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.interest-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #e0e0e0;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.interest-image {
+  flex: 0 0 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.interest-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.request-info {
+    text-align: left; /* Ensure the text is left-aligned */
+    padding-left: 10px; /* Optional: Add some padding if needed */
+}
+
+.request-info h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    text-align: left; /* Ensure title is left-aligned */
+}
+
+.request-info p {
+    font-size: 1rem;
+    color: #555;
+    text-align: left; /* Ensure description is left-aligned */
+}
+
+.interest-info {
+  flex: 2;
+  text-align: left; /* Ensures left alignment */
+}
+
+.interest-info h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: left; /* Ensures title is left-aligned */
+}
+
+.interest-info p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: left; /* Ensures paragraph text is left-aligned */
+}
+
+
+
+.interest-actions {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.action-button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 5px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.details-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.details-button:hover {
+  background-color: #0056b3;
+}
+
+.confirm-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.confirm-button:hover {
+  background-color: #218838;
+}
+
+/* Status Icons */
+.status-icon {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
+}
+
+.status-icon.delivered {
+  background-color: #28a745;
+}
+
+.status-icon.waiting {
+  background-color: #f0ad4e;
+}
+
+.back-link, .check-button {
+  display: inline-block;
+  background-color: #d3d3d3;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  margin: 10px auto; /* Center horizontally */
+  cursor: pointer;
+}
+
+.back-link:hover, .check-button:hover {
+  background-color: #a9a9a9;
+}
+
+
+</style>

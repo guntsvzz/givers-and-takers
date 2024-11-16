@@ -1,0 +1,171 @@
+<% content_for :title, "Your Requests" %>
+
+<div class="wrapper">
+  <h1>Your Requests</h1>
+
+  <% if @notifications.nil? || @notifications.empty? %>
+    <p class="no-requests">There are no requests yet.</p>
+  <% else %>
+    <div class="requests-list">
+      <% @notifications.each do |request| %>
+        <div class="request-card">
+          
+          <!-- Column 1: Image -->
+          <div class="request-image">
+            <%= image_tag(
+              request.image.attached? ? url_for(request.image) : asset_path("default_image.png"),
+              alt: "Request Image",
+              class: "request-img"
+            ) %>
+          </div>
+          
+          <!-- Column 2: Title and Description -->
+          <div class="request-info">
+            <h2><%= request.title %></h2>
+            <p><%= request.description %></p>
+          </div>
+          
+          <!-- Column 3: Action Buttons -->
+          <div class="request-actions">
+            <%= link_to "View Details", request_path(request), class: "action-button view-button" %>
+            <%= link_to "Check Interests", view_interest_notification_path(request.id), class: "action-button check-button" %>
+          </div>
+
+          <!-- Column 4: Set Goals -->
+          <div class="goal-progress">
+            <span class="goal-text">Set Goals</span>
+            <% if request.interests.present? %>
+              <% achieved_quantity = request.interests.where(status: 1).sum(:quantity) %>
+              <% goal_percentage = [((achieved_quantity.to_f / request.quantity) * 100).round(0), 100].min %>
+              <span class="goal-percent"><%= goal_percentage %>%</span>
+            <% else %>
+              <span class="goal-percent">0%</span>
+            <% end %>
+          </div>
+          
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+
+
+<style>
+  .wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #F7F9FC;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .no-requests {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+  }
+
+  .requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .request-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr; /* 4 columns */
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    gap: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .request-image {
+    text-align: center;
+  }
+
+  .request-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .request-info {
+    text-align: left; /* Ensure the text is left-aligned */
+    padding-left: 10px; /* Optional: Add some padding if needed */
+  }
+
+  .request-info h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    text-align: left; /* Ensure title is left-aligned */
+  }
+
+  .request-info p {
+    font-size: 1rem;
+    color: #555;
+    text-align: left; /* Ensure description is left-aligned */
+  }
+
+  .request-actions {
+    text-align: center;
+  }
+
+  .action-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .view-button {
+    background-color: #007bff;
+  }
+
+  .view-button:hover {
+    background-color: #0056b3;
+  }
+
+  .check-button {
+    background-color: #28a745;
+  }
+
+  .check-button:hover {
+    background-color: #218838;
+  }
+
+  .goal-progress {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .goal-text {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .goal-percent {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745;
+  }
+</style>

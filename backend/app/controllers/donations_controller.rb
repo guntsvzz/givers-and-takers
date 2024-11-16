@@ -1,4 +1,5 @@
 class DonationsController < ApplicationController
+  before_action :check_request_goal, only: [:new, :create]
   def new
     @request = Request.find(params[:request_id])
     @donation = @request.interests.new # Assuming donations are represented by interests
@@ -16,6 +17,16 @@ class DonationsController < ApplicationController
     else
       flash[:alert] = "There was an issue with your donation. Please try again."
       render :new
+    end
+  end
+
+  private
+
+  def check_request_goal
+    request = Request.find(params[:request_id])
+    if request.interests.where(status: 1).sum(:quantity) >= request.quantity
+      flash[:alert] = "This request has already reached its goal. You cannot donate anymore."
+      redirect_to request_path(request)
     end
   end
 end
