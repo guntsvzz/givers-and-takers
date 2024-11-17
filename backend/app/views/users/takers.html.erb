@@ -1,53 +1,54 @@
 <div class="outer-background">
-  <div class="donation-leaderboard-wrapper">
-    <div class="donation-container">
-      <h2>Takers List</h2>
-      <!-- Status Filter Form -->
-      <div class="filter-options">
-        <h3>Filter by Status</h3>
-        <form method="get" action="<%= request.path %>">
-          <label>
-            <input type="checkbox" name="status[]" value="0" <%= 'checked' if params[:status].nil? || params[:status].include?('0') %> />
-            Default
-          </label>
-          <label>
-            <input type="checkbox" name="status[]" value="1" <%= 'checked' if params[:status].nil? || params[:status].include?('1') %> />
-            Verified
-          </label>
-          <label>
-            <input type="checkbox" name="status[]" value="2" <%= 'checked' if params[:status].nil? || params[:status].include?('2') %> />
-            Non-Verified
-          </label>
-          <button type="submit">Apply Filter</button>
-        </form>
-      </div>
-    
-
-      <!-- Display Top Takers -->
+  <div class="taker-leaderboard-wrapper">
+    <div class="taker-container">
       <% if @takers.any? %>
-        <ul class="recipients-list">
-          <% @takers.each_with_index do |taker, i| %>
-            <li>
-              <span class="rank"><%= i + 1 + (@takers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
-              <img 
-                src="<%= taker.image_url.present? ? taker.image_url : asset_path('organizer-avatar.png') %>" 
-                alt="<%= "#{taker.first_name} #{taker.last_name}" %>" 
-                class="recipient-image">
-              <span class="name">Name: <%= link_to "#{taker.first_name} #{taker.last_name}", profile_path(taker.id), class: 'profile-link' %></span>
-              <img src="<%= get_status_image(taker.status) %>" alt="<%= taker.status %>" class="status-image">
-            </li>
-          <% end %>
-        </ul>
+        <div class="leaderboard">
+          <h2>Takers List</h2>
 
-        <!-- Pagination controls: Next and Previous buttons -->
-        <div class="pagination">
-          <% if @takers.prev_page %>
-            <%= link_to 'Previous', takers_path(page: @takers.prev_page, status: params[:status]), class: 'btn-previous' %>
-          <% end %>
+          <!-- Status Filter Form -->
+          <div class="filter-options">
+            <h3>Filter by Status</h3>
+            <form method="get" action="<%= request.path %>">
+              <label>
+                <input type="checkbox" name="status[]" value="0" <%= 'checked' if params[:status].nil? || params[:status].include?('0') %> />
+                Default
+              </label>
+              <label>
+                <input type="checkbox" name="status[]" value="1" <%= 'checked' if params[:status].nil? || params[:status].include?('1') %> />
+                Verified
+              </label>
+              <label>
+                <input type="checkbox" name="status[]" value="2" <%= 'checked' if params[:status].nil? || params[:status].include?('2') %> />
+                Non-Verified
+              </label>
+              <button type="submit">Apply Filter</button>
+            </form>
+          </div>
+
+          <ul class="recipients-list">
+            <% @takers.each_with_index do |taker, i| %>
+              <li>
+                <span class="rank"><%= i + 1 + (@takers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
+                <img 
+                  src="<%= taker.image_url.present? ? taker.image_url : asset_path('organizer-avatar.png') %>" 
+                  alt="<%= "#{taker.first_name} #{taker.last_name}" %>" 
+                  class="recipient-image">
+                <span class="name">Name: <%= link_to "#{taker.first_name} #{taker.last_name}", profile_path(taker.id), class: 'profile-link' %></span>
+                <img src="<%= get_status_image(taker.status) %>" alt="<%= taker.status %>" class="status-image">
+              </li>
+            <% end %>
+          </ul>
           
-          <% if @takers.next_page %>
-            <%= link_to 'Next', takers_path(page: @takers.next_page, status: params[:status]), class: 'btn-next' %>
-          <% end %>
+          <!-- Pagination controls: Next and Previous buttons -->
+          <div class="pagination">
+            <% if @takers.prev_page %>
+              <%= link_to 'Previous', takers_path(page: @takers.prev_page, status: params[:status]), class: 'btn-previous' %>
+            <% end %>
+            
+            <% if @takers.next_page %>
+              <%= link_to 'Next', takers_path(page: @takers.next_page, status: params[:status]), class: 'btn-next' %>
+            <% end %>
+          </div>
         </div>
       <% else %>
         <p>No takers found.</p>
@@ -56,53 +57,47 @@
   </div>
 </div>
 
-
 <style>
-  .filter-options {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .filter-options form {
-    display: flex;             /* Align the checkboxes horizontally */
-    justify-content: center;   /* Center the checkboxes */
-    gap: 20px;                 /* Space between the checkboxes */
-    align-items: center;       /* Vertically center the items */
-    flex-wrap: wrap;           /* Allow wrapping on small screens */
-  }
-
-  .filter-options label {
-    font-size: 14px;
-    display: flex;             /* Align label content horizontally */
-    align-items: center;       /* Center the checkbox and label vertically */
-    margin: 0;                 /* Remove default margin */
-  }
-
-  .filter-options input {
-    margin-right: 8px;         /* Space between the checkbox and the text */
-  }
-
-  .filter-options button {
-    padding: 5px 10px;
-    font-size: 14px;
+  .outer-background {
     background-color: #4A90E2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    width: 100%;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .filter-options button:hover {
-    background-color: #3578C5;
+  .taker-leaderboard-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    width: 100%;
   }
-
-  .recipients-list {
+  
+  .taker-container {
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: auto;
+  }
+  
+  h1, h2 {
+    color: #2C3E50;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .leaderboard .recipients-list {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .recipients-list li {
+  .leaderboard .recipients-list li {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -110,15 +105,16 @@
   }
 
   .rank {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     background-color: black;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
     border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
   }
 
   .recipient-image {
@@ -130,8 +126,9 @@
   }
 
   .name {
-    flex: 1;
-    margin: 0 10px;
+    margin-left: 10px;
+    color: #333;
+    font-size: 16px;
   }
 
   .status-image {
@@ -160,7 +157,7 @@
     font-weight: bold;
     margin: 0 10px;
   }
-
+  
   .btn-previous:hover, .btn-next:hover {
     background-color: #357ABD;
   }
@@ -173,5 +170,43 @@
 
   .profile-link:hover {
     text-decoration: underline;
+  }
+
+  .filter-options {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .filter-options form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .filter-options label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .filter-options input {
+    margin-right: 8px;
+  }
+
+  .filter-options button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .filter-options button:hover {
+    background-color: #357ABD;
   }
 </style>
