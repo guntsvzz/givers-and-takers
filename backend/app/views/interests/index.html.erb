@@ -28,7 +28,7 @@
           <!-- Column 3: Offer Information -->
           <div class="interest-details">
             <p>Your amount offer: <%= interest.quantity %></p>
-            <p>User: <%= interest.user_id %></p>
+            <!-- <p>User: <%= interest.user_id %></p>  -->
             <p>Delivery: <%= interest.delivery_method %></p>
             <p>Taker's Verification: <%= interest.request.taker.status %></p>
           </div>
@@ -37,7 +37,7 @@
           <div class="interest-status">
             <div class="status-box">
               <p>Status</p>
-              <p><%= interest.status == 1 ? "Complete" : "Pending" %></p>
+              <p><%= interest.status == "1" ? "Complete" : "Pending" %></p>
             </div>
           </div>
           

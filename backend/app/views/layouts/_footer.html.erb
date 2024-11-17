@@ -5,7 +5,7 @@
     <div class="footer-section">
       <h4>Giver</h4>
       <ul>
-        <li><a href="/ß">Categories</a></li>
+        <li><a href="/">Categories</a></li>
         <li><a href="/">Crisis Relief</a></li>
         <li><a href="/">Social Impact Funds</a></li>
         <li><a href="/">Supporter Space</a></li>
@@ -37,16 +37,16 @@
     <!-- Social Media and Language Selection Section -->
     <div class="footer-section">
       <div class="social-icons">
-        <a href="https://facebook.com" target="_blank">
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
           <img src="assets/social-icons/facebook-logo.png" alt="Facebook Logo" class="social-logo">
         </a>
-        <a href="https://twitter.com" target="_blank">
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter">
           <img src="assets/social-icons/twitter-logo.png" alt="Twitter Logo" class="social-logo">
         </a>
-        <a href="https://instagram.com" target="_blank">
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
           <img src="assets/social-icons/instagram-logo.png" alt="Instagram Logo" class="social-logo">
         </a>
-        <a href="https://youtube.com" target="_blank">
+        <a href="https://youtube.com" target="_blank" aria-label="YouTube">
           <img src="assets/social-icons/youtube-logo.png" alt="YouTube Logo" class="social-logo">
         </a>
       </div>
@@ -57,9 +57,9 @@
       </div>
 
       <div class="language-selector">
-        <select class="language-dropdown">
+        <select class="language-dropdown" aria-label="Select Language">
           <option value="en">English</option>
-          <option value="th">Thai (unavailble) </option>
+          <option value="th" disabled>Thai (Unavailable)</option>
         </select>
       </div>
     </div>
@@ -73,126 +73,120 @@
       <a href="/">Accessibility Statement</a> | 
       <a href="/">Cookie Policy</a>
     </div>
-    <p>&copy; 2024 Giver and Taker. All rights reserved.</p>
+    <p>&copy; 2024 Givers & Takers. All rights reserved.</p>
   </div>
 </footer>
 
-
 <style>
 .footer {
-    background-color: #f8f9fa;
-    padding: 20px;
-    text-align: left;
-  }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: left;
+  display: block !important;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  width: 20%;
+  margin: 10px 0;
+}
+
+.footer-section h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.social-icons {
+  margin-bottom: 10px;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.social-logo {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.social-logo:hover {
+  transform: scale(1.1);
+}
+
+.app-links img {
+  width: 120px;
+  margin: 5px;
+}
+
+.language-selector {
+  margin-top: 15px;
+}
+
+.language-dropdown {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.footer-bottom {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer-links a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom p {
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
   .footer-section {
-    width: 20%;
-    margin: 10px 0;
+    width: 40%; /* Adjust width for smaller screens */
   }
-  
-  .footer-section h4 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 10px;
+}
+
+@media (max-width: 576px) {
+  .footer-section {
+    width: 100%; /* Stack sections vertically */
   }
-  
-  .footer-section ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .footer-section ul li {
-    margin-bottom: 8px;
-  }
-  
-  .footer-section ul li a {
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .footer-section ul li a:hover {
-    text-decoration: underline;
-  }
-  
-  .social-icons {
-    margin-bottom: 10px;
-  }
-  
-  .social-icons a {
-    display: inline-block;
-    margin-right: 15px;
-    text-decoration: none;
-  }
-  
-  .social-logo {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.2s ease;
-  }
-  
-  .social-logo:hover {
-    transform: scale(1.1);
-  }
-  
-  .app-links img {
-    width: 120px;
-    margin: 5px;
-  }
-  
-  .language-selector {
-    margin-top: 15px;
-  }
-  
-  .language-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .language-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .footer-bottom {
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .footer-links a {
-    color: #333;
-    text-decoration: none;
-    margin: 0 10px;
-  }
-  
-  .footer-links a:hover {
-    text-decoration: underline;
-  }
-  
-  .footer-bottom p {
-    margin-top: 5px;
-  }
-  
-  .language-selector {
-    margin-top: 15px;
-  }
-  
-  .language-dropdown {
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+}
 </style>

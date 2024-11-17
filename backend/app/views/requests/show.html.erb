@@ -250,6 +250,8 @@
           Requested by: <%= @request.taker.first_name %> <%= @request.taker.last_name %>
           <br>
           Organization: <%= @request.taker.organization_name %> is an organizer
+          <br>
+          Address : <%= @request.address %> 
         </p>
 
         <% if @request.taker.status == User::STATUSES[:verified] %>

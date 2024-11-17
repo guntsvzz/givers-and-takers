@@ -121,6 +121,7 @@ GEM
       logger
       zeitwerk (~> 2.6)
     erubi (1.13.0)
+    flatpickr (4.6.13.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.5)
@@ -351,6 +352,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   devise-jwt
+  flatpickr
   importmap-rails
   jbuilder
   kaminari

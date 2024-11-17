@@ -1,6 +1,7 @@
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
     before_action :set_user, only: [:show]
+    layout "application"
     # def index
     #   @user = current_user  # or User.find(params[:id]) if it's not the current user
     # end

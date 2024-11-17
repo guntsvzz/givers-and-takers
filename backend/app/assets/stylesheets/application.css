@@ -12,9 +12,9 @@
  *
  *= require_tree .
  *= require_self
+ *= require flatpickr
  */
  @import "bootstrap";
-
 
 * {
   font-family: 'Helvetica', Arial, sans-serif;

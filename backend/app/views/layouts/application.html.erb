@@ -16,8 +16,17 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    
+    <%= javascript_include_tag "flatpickr" %>
+    <%= stylesheet_link_tag "flatpickr" %>
+
     <style>
+      /* Reset Margins and Padding */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       /* Ensure body takes the entire height and is vertically aligned */
       body {
         display: flex;
@@ -30,6 +39,8 @@
       /* Navbar Styling */
       .navbar {
         width: 100%;
+        margin: 0; /* Ensure no spacing */
+        padding: 0;
       }
 
       /* Content Styling */
@@ -49,13 +60,6 @@
         background-color: #f8f9fa;
         text-align: center;
       }
-
-      /* Flash Message Styling */
-      .flash-alert {
-        color: red;
-        font-weight: bold;
-        margin: 10px 20px;
-      }
     </style>
   </head>
 
@@ -65,11 +69,6 @@
     </div>
 
     <div class="content">
-      <% if flash[:alert] %>
-        <div class="flash-alert">
-          <%= flash[:alert] %>
-        </div>
-      <% end %>
       <%= yield %>
     </div>
 

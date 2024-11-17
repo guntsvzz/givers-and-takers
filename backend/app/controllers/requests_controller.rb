@@ -86,11 +86,20 @@ class RequestsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
+    # def request_params
+    #   params.require(:request).permit(
+    #     :title, :description, :item_name, :quantity, :start_time, :end_time, :status, :image
+    #   )
+    # end
+
+    private
+
     def request_params
       params.require(:request).permit(
-        :title, :description, :item_name, :quantity, :start_time, :end_time, :status, :image
+        :title, :description, :item_name, :quantity, :address, :start_time, :end_time, :status, :image
       )
     end
+    
 
 
     # Only admins and takers can access this controller
