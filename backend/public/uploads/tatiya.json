@@ -1,0 +1,31 @@
+{
+    "timestamp": "18/11/2024, 22:51:55",
+    "consent_to_participate": "Yes",
+    "first_name": "Tatiya",
+    "last_name": "Seehatrakul",
+    "is_ait_student": "Yes",
+    "student_id": "st124875",
+    "enrolled_in_at7025": "Yes",
+    "group_name": "hello",
+    "criteria": {
+      "registration_process_easy": "Strongly Agree",
+      "secure_personal_details": "Strongly Agree",
+      "overall_user_experience_satisfactory": "Neutral",
+      "easy_to_donate_as_giver": "Neutral",
+      "easy_to_make_requests_as_taker": "Strongly Agree",
+      "enough_categories_for_items": "Neutral",
+      "platform_meets_expectations": "Strongly Agree",
+      "recommend_platform_to_others": "Neutral",
+      "design_is_intuitive_and_appealing": "Strongly Agree"
+    },
+    "improvements_suggestions": [
+      "In signup page should have 'sign up' header. Sometimes the user might get confused which page they are in if they are not looking at the endpoint.",
+      "After sign up should show flash message/notice message if the users are getting error or successfully signed up to the system. Sometimes it's confusing.",
+      "In /requests/new for taker. Header should be provided to tell user if they are a giver or taker, sometimes I forgot what I am.",
+      "In /requests if the request is failed to be created, it should show flash message/notice message which error they are taking.",
+      "Add more CSS please I need more animation.",
+      "/givers dashboard is beautiful.",
+      "Need to improve UX."
+    ]
+  }
+  

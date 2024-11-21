@@ -96,7 +96,7 @@ class RequestsController < ApplicationController
 
     def request_params
       params.require(:request).permit(
-        :title, :description, :item_name, :quantity, :address, :start_time, :end_time, :status, :image
+        :title, :description, :item_name, :quantity, :address, :start_time, :end_time, :status, :image, :category
       )
     end
     

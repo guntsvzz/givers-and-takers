@@ -1,0 +1,118 @@
+<div class="outer-background">
+  <div class="wrapper">
+    <!-- Remove or comment this line to hide json_file.name -->
+    <!-- <h1><%= @json_file.name %></h1> -->
+
+
+    <% if @json_data.present? && @json_data.is_a?(Hash) %>
+      <!-- Display user details in a key-value layout -->
+      <table border="1" style="width: 100%; text-align: left;">
+        <thead>
+          <tr>
+            <th style="width: 30%; padding: 8px; background-color: #f2f2f2;">Key</th>
+            <th style="width: 70%; padding: 8px; background-color: #f2f2f2;">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @json_data.each do |key, value| %>
+            <% unless ['first_name', 'last_name', 'student_id'].include?(key) %>
+              <tr>
+                <td style="padding: 8px;"><%= key.humanize %></td>
+                <td style="padding: 8px;">
+                  <% if value.is_a?(Hash) %>
+                    <!-- Nested Hash -->
+                    <table border="1" style="width: 100%; text-align: left;">
+                      <thead>
+                        <tr>
+                          <th style="width: 30%; padding: 8px; background-color: #f2f2f2;">Sub-Key</th>
+                          <th style="width: 70%; padding: 8px; background-color: #f2f2f2;">Sub-Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% value.each do |sub_key, sub_value| %>
+                          <tr>
+                            <td style="padding: 8px;"><%= sub_key.humanize %></td>
+                            <td style="padding: 8px;"><%= sub_value %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% elsif value.is_a?(Array) %>
+                    <!-- Display Array as a list -->
+                    <ul>
+                      <% value.each do |item| %>
+                        <li><%= item %></li>
+                      <% end %>
+                    </ul>
+                  <% else %>
+                    <%= value %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <!-- If the JSON format is unsupported, show an image -->
+      <img src="<%= asset_path('default-image.png') %>" alt="Unsupported format image" class="img-fluid" />
+    <% end %>
+
+    <%= link_to 'Back to list', json_files_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
+
+<style>
+/* Place your provided CSS styles here */
+.outer-background {
+  background-color: #4A90E2;
+  width: 100%;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  max-width: 800px;
+  padding: 40px;
+  background-color: #F7F9FC;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+}
+
+.wrapper h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.wrapper p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.wrapper h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.wrapper ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.wrapper li {
+  font-size: 1rem;
+  color: #555;
+  margin: 

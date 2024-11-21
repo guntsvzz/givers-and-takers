@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'json_files/index', to: 'json_files#index', as: 'json_files'
+  get 'json_files/:id', to: 'json_files#show', as: 'json_file'
+  post 'json_files/upload', to: 'json_files#upload', as: 'upload_json_file'
+
   # Define account routes
   get 'account/giver', to: 'account#giver', as: 'account_giver'
   get 'account/taker', to: 'account#taker', as: 'account_taker'

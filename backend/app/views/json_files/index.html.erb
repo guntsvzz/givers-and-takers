@@ -1,0 +1,93 @@
+<div class="outer-background">
+  <div class="wrapper">
+    <h1>Uploaded JSON Files</h1>
+
+    <%= form_with url: upload_json_file_path, local: true, multipart: true do %>
+      <div>
+        <label for="file">Select JSON File:</label>
+        <%= file_field_tag :file %>
+      </div>
+      <div>
+        <%= submit_tag 'Upload', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+
+    <h2>File List</h2>
+    <ul>
+      <% @json_files.each_with_index do |file, index| %>
+        <li>
+          <%= link_to "JSON#{index + 1}", json_file_path(file), class: 'file-link' %>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= notice %>
+    <%= alert %>
+  </div>
+</div>
+
+<style>
+/* Place your provided CSS styles here */
+.outer-background {
+  background-color: #4A90E2;
+  width: 100%;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  max-width: 800px;
+  padding: 40px;
+  background-color: #F7F9FC;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+}
+
+.wrapper h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.wrapper p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.wrapper h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.wrapper ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.wrapper li {
+  font-size: 1rem;
+  color: #555;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.wrapper li::before {
+  content: "• ";
+  color: #4A90E2;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 8px;
+}
+</style>

@@ -132,6 +132,10 @@
 
       <div>
         <div class="field">
+          <%= form.label :category, "Category:" %>
+          <%= form.select :category, Request.categories.keys.map { |category| [category.humanize, category] }, { include_blank: "Select a Category" } %>
+        </div>
+        <div class="field">
           <%= form.label :address, "Address:" %>
           <%= form.text_field :address %>
         </div>

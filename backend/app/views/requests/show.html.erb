@@ -252,6 +252,8 @@
           Organization: <%= @request.taker.organization_name %> is an organizer
           <br>
           Address : <%= @request.address %> 
+          <br>
+          Category : <%= @request.category %>
         </p>
 
         <% if @request.taker.status == User::STATUSES[:verified] %>
