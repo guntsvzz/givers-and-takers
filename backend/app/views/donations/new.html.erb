@@ -95,7 +95,7 @@
         Hurry up!!! They need only <%= remaining_quantity %> more sets to reach the goal
       </p>
 
-      <%= form_with url: request_donations_path, method: :post, local: true do |f| %>
+      <%= form_with url: request_donations_path, method: :post, local: true, id: "donation-form" do |f| %>
 
         <%= f.hidden_field :status, value: 0 %> <!-- Sets status to 0 by default -->
 
@@ -113,6 +113,28 @@
       <% end %>
     </section>
   </main>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('#donation-form');
+    const takerStatus = "<%= @request.taker.status %>"; // Fetch the taker's status dynamically from Rails
+
+    form.addEventListener('submit', function (event) {
+      if (takerStatus !== "verified") {
+        event.preventDefault(); // Stop the default form submission
+        const confirmation = confirm(
+          "This user has not been verified by the admin yet. Would you like to proceed with the donation?"
+        );
+        if (confirmation) {
+          // Remove the event listener to prevent a loop
+          form.removeEventListener('submit', arguments.callee);
+          form.submit(); // Manually submit the form
+        }
+      }
+    });
+  });
+  </script>
+
 
 </body>
 </html>

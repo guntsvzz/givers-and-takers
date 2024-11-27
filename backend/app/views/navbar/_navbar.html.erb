@@ -25,10 +25,11 @@
       <% if user_signed_in? %>
         <!-- Dropdown menu for logged-in users -->
         <div class="account-menu">
-          <img 
-          src="<%= current_user.image_url.present? ? current_user.image_url : asset_path('organizer-avatar.png') %>" 
-          alt="<%= "#{current_user.first_name} #{current_user.last_name}" %>" 
-          class="recipient-image">
+          <% if current_user.profile_image.attached? %>
+            <%= image_tag current_user.profile_image, class: 'profile-avatar', alt: "Profile Picture" %>
+          <% else %>
+            <%= image_tag 'organizer-avatar.png', class: 'profile-avatar', alt: "Default Avatar" %>
+          <% end %>
       
           <!-- Just display the first name without the link -->
           <span class="btn basic"><%= current_user.first_name %></span>  
@@ -283,11 +284,10 @@
 }
 
 .profile-avatar {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: middle;
+  object-fit: cover;
 }
 
 .recipient-image {

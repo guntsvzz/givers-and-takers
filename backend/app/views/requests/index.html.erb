@@ -13,9 +13,11 @@
       </div>
 
       <!-- New Request Link Row -->
-      <div class="new-request-row">
-        <%= link_to "New request", new_request_path, class: "new-request-link" %>
-      </div>
+      <% unless current_user.role == "giver" %>
+        <div class="new-request-row">
+          <%= link_to "New request", new_request_path, class: "new-request-link" %>
+        </div>
+      <% end %>
     </div>
 
     <!-- Content Cards Section -->

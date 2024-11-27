@@ -45,7 +45,10 @@ class RequestsController < ApplicationController
     Rails.logger.debug "Image attached?: #{params[:request][:image].present?}"
 
     respond_to do |format|
-      if @request.save
+      if @request.taker.status != "verified"
+        flash[:alert] = "This user has not been verified by the admin yet. Please confirm if you want to proceed."
+        redirect_to request.referrer and return unless params[:confirmed] == "true"
+      elsif @request.save
         Rails.logger.debug "Saved with image: #{@request.image.attached?}"
         format.html { redirect_to request_url(@request), notice: "Request was successfully created." }
         format.json { render :show, status: :created, location: @request }

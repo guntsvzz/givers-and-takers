@@ -7,13 +7,21 @@
           <ul class="donators-list">
             <% @givers.each_with_index do |giver, i| %>
               <li>
-                <span class="rank"><%= i + 1 + (@givers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
-                <img 
-                  src="<%= giver.image_url.present? ? giver.image_url : asset_path('organizer-avatar.png') %>" 
-                  alt="<%= giver.first_name %>" 
-                  class="donator-image">
-                <span class="name">Name: <%= link_to "#{giver.first_name} #{giver.last_name}", profile_path(giver.id), class: 'profile-link' %></span>
+                <span class="rank"><%= i + 1 + (@givers.current_page - 1) * 10 %></span>
+                
+                <!-- Display giver's profile image -->
+                <% if giver.profile_image.attached? %>
+                  <%= image_tag giver.profile_image, class: 'donator-image', alt: "#{giver.first_name}'s Profile Picture" %>
+                <% else %>
+                  <%= image_tag asset_path('organizer-avatar.png'), class: 'donator-image', alt: "Default Profile Picture" %>
+                <% end %>
 
+                <!-- Giver's name and link to profile -->
+                <span class="name">
+                  Name: <%= link_to "#{giver.first_name} #{giver.last_name}", profile_path(giver.id), class: 'profile-link' %>
+                </span>
+
+                <!-- Display giver's total interested quantity -->
                 <span class="donates"><%= giver.total_interested_quantity || 0 %></span>
               </li>
             <% end %>
@@ -36,6 +44,8 @@
     </div>
   </div>
 </div>
+
+
 <style>
   .outer-background {
     background-color: #4A90E2;

@@ -1,5 +1,15 @@
 <h1>Profile</h1>
 <div class="profile-container">
+  <!-- Display the profile image -->
+  <div class="profile-image">
+    <% if @user.profile_image.attached? %>
+      <%= image_tag @user.profile_image, alt: "Profile Picture", class: "show-avatar" %>
+    <% else %>
+      <%= image_tag 'default-avatar.png', alt: "Default Profile Picture", class: "show-avatar" %>
+    <% end %>
+  </div>
+
+  <!-- Display profile details -->
   <div class="profile-details">
     <p><strong>Name:</strong> <%= "#{@user.first_name} #{@user.last_name}" %></p>
     <p><strong>Email:</strong> <%= @user.email %></p>
@@ -17,11 +27,9 @@
   <% end %>
 </div>
 
-
-
-
+<!-- Add CSS styling for the profile -->
 <style>
-/* app/assets/stylesheets/profile.css */
+/* Profile container */
 .profile-container {
   max-width: 600px;
   margin: 20px auto;
@@ -29,12 +37,30 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
+  text-align: center;
 }
 
+/* Profile image styling */
+.profile-image {
+  margin-bottom: 20px;
+}
+
+.show-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile details */
 .profile-details p {
   margin: 10px 0;
+  font-size: 16px;
+  color: #333;
 }
 
+/* Edit button */
 .edit-button {
   margin-top: 20px;
 }

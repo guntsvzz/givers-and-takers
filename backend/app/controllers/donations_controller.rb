@@ -13,7 +13,7 @@ class DonationsController < ApplicationController
     @interest = @request.interests.new(user: current_user, quantity: quantity, status: 0)
 
     if @interest.save
-      redirect_to request_path(@request), notice: "Thank you for your donation!"
+      redirect_to request_path(@request), notice: "Thank you for your generosity! We will update your donation status once the request has been confirmed."
     else
       flash[:alert] = "There was an issue with your donation. Please try again."
       render :new

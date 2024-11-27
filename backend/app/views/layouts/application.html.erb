@@ -10,7 +10,7 @@
     <%= yield :head %>
 
     <!-- Favicon and Web App Icons -->
-    <link rel="icon" href="<%= asset_path 'logo-removebg.png' %>" type="image/png"> <!-- Primary favicon -->
+    <link rel="icon" href="<%= asset_path 'logo-removebg.png' %>" type="image/png">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="<%= asset_path 'logo-removebg.png' %>">
 
@@ -39,7 +39,7 @@
       /* Navbar Styling */
       .navbar {
         width: 100%;
-        margin: 0; /* Ensure no spacing */
+        margin: 0;
         padding: 0;
       }
 
@@ -60,12 +60,72 @@
         background-color: #f8f9fa;
         text-align: center;
       }
+
+      /* Flash Messages Styling */
+      .flash-messages {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .flash {
+        padding: 15px 25px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        animation: fadeOut 3s forwards;
+        background-color: #f44336; /* Default red for alert */
+      }
+
+      .flash.notice {
+        background-color: #4caf50; /* Green for success */
+      }
+
+      .flash.alert {
+        background-color: #f44336; /* Red for errors */
+      }
+
+      .flash.info {
+        background-color: #2196f3; /* Blue for informational messages */
+      }
+
+      .flash.warning {
+        background-color: #ff9800; /* Orange for warnings */
+      }
+
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
     </style>
   </head>
 
   <body>
     <div class="navbar">
       <%= render "navbar/navbar" %>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+      <% flash.each do |key, message| %>
+        <div class="flash <%= key %>">
+          <%= message %>
+        </div>
+      <% end %>
     </div>
 
     <div class="content">
@@ -76,4 +136,17 @@
       <%= render "layouts/footer" %>
     </div>
   </body>
+
+  <script>
+    // Auto-dismiss flash messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', function () {
+      const flashes = document.querySelectorAll('.flash');
+      flashes.forEach((flash) => {
+        setTimeout(() => {
+          flash.style.opacity = '0';
+          setTimeout(() => flash.remove(), 500);
+        }, 5000);
+      });
+    });
+  </script>
 </html>

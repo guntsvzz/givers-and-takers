@@ -74,6 +74,15 @@
           </div>
         </div>
 
+        <!-- Profile Image Upload Field -->
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :profile_image, "Profile Image" %>
+            <%= f.file_field :profile_image, accept: "image/png,image/jpeg,image/jpg", class: "file-input" %>
+            <small class="form-text text-muted">Upload a profile picture (Max size: 20MB, JPG/PNG only).</small>
+          </div>
+        </div>
+
         <%= f.submit "Confirm", class: "submit-btn", disabled: @signupForm_invalid %>
       <% end %>
     </div>

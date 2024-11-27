@@ -11,13 +11,13 @@
           
           <!-- Column 1: User Image -->
           <div class="interest-image">
-            <img 
-              src="<%= interest.user.image_url.present? ? interest.user.image_url : asset_path('organizer-avatar.png') %>" 
-              alt="<%= interest.user.first_name %>" 
-              class="interest-img">
-        
-          </div>
-          
+          <% if interest.user.profile_image.attached? %>
+            <%= image_tag interest.user.profile_image, class: 'interest-img', alt: "#{interest.user.first_name}'s Profile Picture" %>
+          <% else %>
+            <%= image_tag asset_path('organizer-avatar.png'), class: 'interest-img', alt: "Default Profile Picture" %>
+          <% end %>
+        </div>
+
           <!-- Column 2: User Information -->
           <div class="interest-info">
             <h2><%= interest.user.first_name %> <%= interest.user.last_name %></h2>

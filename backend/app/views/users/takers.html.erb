@@ -29,12 +29,21 @@
             <% @takers.each_with_index do |taker, i| %>
               <li>
                 <span class="rank"><%= i + 1 + (@takers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
-                <img 
-                  src="<%= taker.image_url.present? ? taker.image_url : asset_path('organizer-avatar.png') %>" 
-                  alt="<%= "#{taker.first_name} #{taker.last_name}" %>" 
-                  class="recipient-image">
-                <span class="name">Name: <%= link_to "#{taker.first_name} #{taker.last_name}", profile_path(taker.id), class: 'profile-link' %></span>
-                <img src="<%= get_status_image(taker.status) %>" alt="<%= taker.status %>" class="status-image">
+                
+                <!-- Display taker's profile image -->
+                <% if taker.profile_image.attached? %>
+                  <%= image_tag taker.profile_image, alt: "#{taker.first_name} #{taker.last_name}'s Profile Picture", class: 'recipient-image' %>
+                <% else %>
+                  <%= image_tag asset_path('organizer-avatar.png'), alt: "Default Profile Picture", class: 'recipient-image' %>
+                <% end %>
+
+                <!-- Taker's name and link to profile -->
+                <span class="name">
+                  Name: <%= link_to "#{taker.first_name} #{taker.last_name}", profile_path(taker.id), class: 'profile-link' %>
+                </span>
+
+                <!-- Display taker's status image -->
+                <img src="<%= get_status_image(taker.status) %>" alt="<%= taker.status.humanize %>" class="status-image">
               </li>
             <% end %>
           </ul>

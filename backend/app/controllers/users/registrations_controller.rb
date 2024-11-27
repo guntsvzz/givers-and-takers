@@ -3,7 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # skip_before_action :verify_authenticity_token, only: [:create]
   before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   def new
@@ -41,6 +41,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   else
   #     params[:user][:role] = User.roles[:taker]
   #   end
+  def create
+    super do |resource|
+      if resource.persisted?
+        flash[:notice] = "Sign up successful! Welcome to Givers & Takers!"
+      else
+        flash[:alert] = resource.errors.full_messages.join(", ")
+      end
+    end
+  end
     
   #   super
   # end
@@ -54,6 +63,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def update
   #   super
   # end
+  def update
+    # Allows updating profile image and other attributes without requiring the password if not being changed
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    if update_resource(resource, account_update_params)
+      set_flash_message :notice, :updated if is_flashing_format?
+      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+      redirect_to after_update_path_for(resource)
+    else
+      clean_up_passwords resource
+      respond_with resource
+    end
+  end
 
   # DELETE /resource
   # def destroy
@@ -95,7 +116,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :role, 
       :organization_type, 
       :organization_name, 
-      :phone_number
+      :phone_number,
+      :profile_image
     ])
   end  
   
@@ -120,7 +142,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :address, :organization_name, :phone_number)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :address, :organization_name, :phone_number, :profile_image)
     # Do not permit :role, :organization_type, or :status if they shouldn't be set via params
   end
 
@@ -138,4 +160,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #     :phone_number
   #   )
   # end  
+  # Permit additional parameters for account update
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :password_confirmation,
+      :current_password,
+      :address,
+      :organization_type,
+      :organization_name,
+      :phone_number,
+      :profile_image
+    ])
+  end
 end

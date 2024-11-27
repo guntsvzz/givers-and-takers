@@ -247,7 +247,8 @@
               class: "request-image") %>
         <p class="organization">
           <img src="<%= get_status_image(@request.taker.status) %>" alt="<%= @request.taker.status %> status" class="status-icon">
-          Requested by: <%= @request.taker.first_name %> <%= @request.taker.last_name %>
+          Requested by: 
+          <%= link_to "#{@request.taker.first_name} #{@request.taker.last_name}", profile_path(@request.taker.id), class: 'profile-link' %> 
           <br>
           Organization: <%= @request.taker.organization_name %> is an organizer
           <br>
@@ -316,3 +317,22 @@
   </div>
 </body>
 </html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    const takerStatus = "<%= @request.taker.status %>"; // Get taker's status from the server
+
+    form.addEventListener('submit', function (event) {
+      if (takerStatus !== "verified") {
+        event.preventDefault(); // Stop form submission
+        const confirmation = confirm(
+          "This user has not been verified by the admin yet. Would you like to proceed with the donation?"
+        );
+        if (confirmation) {
+          form.submit(); // Proceed with the form submission if the user confirms
+        }
+      }
+    });
+  });
+</script>

@@ -4,3 +4,4 @@
 //= link_tree ../../../vendor/javascript .js
 //= link flatpickr.js
 //= link flatpickr.css
+//= link default-avatar.png

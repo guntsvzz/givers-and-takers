@@ -10,9 +10,10 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     @selected_role = params[:user][:role] # Get the role from the form data
-    super
+    super do |resource|
+      flash[:notice] = "Welcome back, #{resource.first_name}!" if resource.persisted?
+    end
   end
-  
 
   # DELETE /resource/sign_out
   # def destroy
