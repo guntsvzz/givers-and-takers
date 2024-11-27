@@ -21,6 +21,8 @@ class Request < ApplicationRecord
     }
 
     # Optional: Validations, associations, etc.
+    validates :title, presence: true
+    validates :description, presence: true
     validates :category, inclusion: { in: categories.keys }
     validates :item_name, :quantity, :description, presence: true
     validates :start_time, :end_time, presence: true

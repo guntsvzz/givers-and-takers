@@ -114,8 +114,9 @@
       <div>
         <div class="field">
           <%= form.label :title, "Title:" %>
-          <%= form.text_field :title %>
+          <%= form.text_field :title, id: "unique_request_title" %>
         </div>
+    
         <div class="field">
           <%= form.label :description, "Description:" %>
           <%= form.text_area :description %>
@@ -133,7 +134,7 @@
       <div>
         <div class="field">
           <%= form.label :category, "Category:" %>
-          <%= form.select :category, Request.categories.keys.map { |category| [category.humanize, category] }, { include_blank: "Select a Category" } %>
+          <%= form.select :category, Request.categories.keys.map { |category| [category.humanize, category] }, { include_blank: "Select a Category" }, id: "request_category" %> 
         </div>
         <div class="field">
           <%= form.label :address, "Address:" %>

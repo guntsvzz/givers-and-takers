@@ -8,12 +8,15 @@
             <% @takers.each_with_index do |taker, i| %>
               <li>
                 <span class="rank"><%= i + 1 + (@takers.current_page - 1) * 10 %></span> <!-- Adjust rank for pagination -->
-                <img 
-                  src="<%= taker.image_url.present? ? taker.image_url : asset_path('organizer-avatar.png') %>" 
-                  alt="<%= taker.first_name %>" 
-                  class="donator-image">
-                <span class="name"><%= "#{taker.first_name} #{taker.last_name}" %></span>
-                
+                <% if taker.profile_image.attached? %>
+                  <%= image_tag taker.profile_image, alt: "#{taker.first_name} #{taker.last_name}'s Profile Picture", class: 'recipient-image' %>
+                <% else %>
+                  <%= image_tag asset_path('organizer-avatar.png'), alt: "Default Profile Picture", class: 'recipient-image' %>
+                <% end %>
+                <span class="name">
+                  <%= link_to "#{taker.first_name} #{taker.last_name}", profile_path(taker.id), class: 'profile-link' %>
+                </span>
+
                 <span class="actions">
                   <!-- Verified Button -->
                   <%= button_to update_taker_status_path(taker, status: 'verified'), method: :post, class: 'status-btn verified' do %>
@@ -177,5 +180,15 @@
 
   .btn-previous:hover, .btn-next:hover {
     background-color: #357ABD;
+  }
+
+  .profile-link {
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .profile-link:hover {
+    text-decoration: underline;
   }
 </style>

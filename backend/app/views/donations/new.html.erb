@@ -76,7 +76,12 @@
   <main>
     <section class="main-section">
       <div class="flex">
-        <%= image_tag @request.image_url.presence || 'default_image.png', alt: 'Beneficiary', class: 'beneficiary-image' %>
+        <%= image_tag(
+            @request.image.attached? ? url_for(@request.image) : asset_path('default_image.png'), 
+            alt: 'Beneficiary', 
+            class: 'beneficiary-image') %>
+
+
         <div class="text-content">
           <h2 style="font-size: 1.5em; color: #333;">You’re supporting <span style="color: #007bff;"><%= @request.title %></span>.</h2>
           <p style="color: #666;">Your donation will benefit <%= @request.taker.organization_name %></p>

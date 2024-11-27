@@ -246,9 +246,10 @@
               alt: "Image for #{@request.title}", 
               class: "request-image") %>
         <p class="organization">
-          <img src="<%= get_status_image(@request.taker.status) %>" alt="<%= @request.taker.status %> status" class="status-icon">
           Requested by: 
           <%= link_to "#{@request.taker.first_name} #{@request.taker.last_name}", profile_path(@request.taker.id), class: 'profile-link' %> 
+          <img src="<%= get_status_image(@request.taker.status) %>" alt="<%= @request.taker.status %> status" class="status-icon">
+
           <br>
           Organization: <%= @request.taker.organization_name %> is an organizer
           <br>
@@ -256,6 +257,8 @@
           <br>
           Category : <%= @request.category %>
         </p>
+
+        <p class="request-description">Description: <%= @request.description %></p>
 
         <% if @request.taker.status == User::STATUSES[:verified] %>
           <p class="announcement verified">
@@ -271,8 +274,10 @@
           </p>
         <% end %>
 
+        <% if current_user.id == @request.taker_id %>
+          <a href="<%= edit_request_path(@request) %>" class="check-button">Edit Request</a>
+        <% end %>
 
-        <p class="request-description">Description: <%= @request.description %></p>
         <% if current_user.id == @request.taker_id %>
           <a href="<%= view_interest_notification_path(@request.id) %>" class="check-button">Check Interests</a>
         <% end %>

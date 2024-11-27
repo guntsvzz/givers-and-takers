@@ -11,6 +11,11 @@
 
   <!-- Display profile details -->
   <div class="profile-details">
+    <!-- Display user status -->
+    <p><strong>Status:</strong>
+      <%= image_tag @user.status == "verified" ? 'verified.png' : @user.status == "non_verified" ? 'non-verified.png' : 'default-status.png', alt: @user.status.humanize, class: 'status-icon' %>
+      <%= @user.status.humanize %>
+    </p>
     <p><strong>Name:</strong> <%= "#{@user.first_name} #{@user.last_name}" %></p>
     <p><strong>Email:</strong> <%= @user.email %></p>
     <p><strong>Role:</strong> <%= @user.role.humanize %></p>
@@ -63,5 +68,12 @@
 /* Edit button */
 .edit-button {
   margin-top: 20px;
+}
+/* Status icon */
+.status-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 </style>

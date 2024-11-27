@@ -63,19 +63,17 @@ class User < ApplicationRecord
   end
 
   def validate_profile_image
-    if profile_image.attached?
-      # Check content type
-      acceptable_types = ["image/png", "image/jpg", "image/jpeg"]
-      unless acceptable_types.include?(profile_image.blob.content_type)
-        errors.add(:profile_image, "must be a PNG, JPG, or JPEG")
-      end
+    return unless profile_image.attached? # Skip validation if no image is attached
   
-      # Check file size
-      if profile_image.blob.byte_size > 20.megabytes
-        errors.add(:profile_image, "is too large. Max size is 20 MB")
-      end
-    else
-      errors.add(:profile_image, "must be attached")
+    # Check content type
+    acceptable_types = ["image/png", "image/jpg", "image/jpeg"]
+    unless acceptable_types.include?(profile_image.blob.content_type)
+      errors.add(:profile_image, "must be a PNG, JPG, or JPEG")
+    end
+  
+    # Check file size
+    if profile_image.blob.byte_size > 20.megabytes
+      errors.add(:profile_image, "is too large. Max size is 20 MB")
     end
   end  
 end
